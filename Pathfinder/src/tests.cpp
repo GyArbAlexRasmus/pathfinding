@@ -1,4 +1,3 @@
-
 #include "pathfinder.h"
 #include <cstdlib>
 #include <iostream>

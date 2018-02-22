@@ -13,4 +13,3 @@ namespace pathfinder {
 
 
 #endif /* PATHFINDER_H */
-
