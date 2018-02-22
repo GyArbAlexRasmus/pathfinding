@@ -4,7 +4,6 @@
 
 #include <chrono>
 #include <osmium/memory/buffer.hpp>
-#include "tests.h"
 
 namespace tests {
     
