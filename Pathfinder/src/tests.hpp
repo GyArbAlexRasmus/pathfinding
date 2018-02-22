@@ -19,6 +19,4 @@ namespace tests {
     osmium::memory::Buffer Initialize();
     
 }
-
 #endif /* TESTS_H */
-
