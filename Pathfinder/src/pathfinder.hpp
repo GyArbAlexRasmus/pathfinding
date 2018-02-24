@@ -3,52 +3,25 @@
 
 namespace pathfinder {
     namespace objects {
-        /// \enum Describes car accessibility.
-        enum Car_Accessibility {
-            FORBIDDEN,
-            RESIDENTIAL,
-            TERTIARY,
-            SECONDARY,
-            PRIMARY,
-            TRUNK,
-            MOTORWAY
-        };
         
-        /// \enum Describes bike accessibility.
-        enum Bike_Accessibility {
-            FORBIDDEN,
-            OPPOSITE_OF_CAR, // bike lane in the opposite direction of the car flow
-            ALLOWED, // allowed without specific equipment
-            CYCLING_LANE,
-            BUS_LANE_ALLOWED, // bus lane allowed for cycles
-            CYCLING_TRACK
-        };
-        
-        /// \enum Describes accessibility on foot.
-        enum Foot_Accessibility {
-            FORBIDDEN,
-            ALLOWED
-        };
+        typedef std::pair<double, Node*> edge; // Cost, target
         
         struct Node {
+            std::vector<edge> adjacent;
             uint64_t id;
             double lon;
             double lat;
         };
         
-        struct Edge {
-            uint64_t id;
-            uint64_t source_id;
-            uint64_t target_id;
-            double length;
-            Car_Accessibility car_access;
-            Car_Accessibility car_reverse_access;
-            Bike_Accessibility bike_access;
-            Bike_Accessibility bike_reverse_access;
-            Foot_Accessibility foot_access;
-            std::string geometry; // In WKT format
+        class Graph {
+        public:
+            typedef std::map<uint64_t, Node*> nmap_t;
+            nmap_t nodemap;
+            void AddNode(Node& node);
+            void AddEdge(uint64_t src, uint64_t target, double cost);
+            void RemoveNode(uint64_t id);
+            void RemoveEdge(uint64_t src, uint64_t target);
         };
-        
     }
     class algorithm {
         public:
