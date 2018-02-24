@@ -5,29 +5,29 @@ namespace pathfinder {
     namespace objects {
         /// \enum Describes car accessibility.
         enum Car_Accessibility {
-            FORBIDDEN   = 0,
-            RESIDENTIAL = 1,
-            TERTIARY    = 2,
-            SECONDARY   = 3,
-            PRIMARY     = 4,
-            TRUNK       = 5,
-            MOTORWAY    = 6
+            FORBIDDEN,
+            RESIDENTIAL,
+            TERTIARY,
+            SECONDARY,
+            PRIMARY,
+            TRUNK,
+            MOTORWAY
         };
         
         /// \enum Describes bike accessibility.
         enum Bike_Accessibility {
-            FORBIDDEN        = 0,
-            OPPOSITE_OF_CAR  = 1, // bike lane in the opposite direction of the car flow
-            ALLOWED          = 2, // allowed without specific equipment
-            CYCLING_LANE     = 3,
-            BUS_LANE_ALLOWED = 4, // bus lane allowed for cycles
-            CYCLING_TRACK    = 5
+            FORBIDDEN,
+            OPPOSITE_OF_CAR, // bike lane in the opposite direction of the car flow
+            ALLOWED, // allowed without specific equipment
+            CYCLING_LANE,
+            BUS_LANE_ALLOWED, // bus lane allowed for cycles
+            CYCLING_TRACK
         };
         
         /// \enum Describes accessibility on foot.
         enum Foot_Accessibility {
-            FORBIDDEN = 0,
-            ALLOWED = 1
+            FORBIDDEN,
+            ALLOWED
         };
         
         struct Node {
