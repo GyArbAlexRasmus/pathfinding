@@ -3,6 +3,8 @@ namespace po = boost::program_options;
 
 #include <iostream>
 #include <iterator>
+#include "pathfinder.hpp"
+#include "tests.hpp"
 
 int main(int argc, char* argv[]) {
     std::string filename;

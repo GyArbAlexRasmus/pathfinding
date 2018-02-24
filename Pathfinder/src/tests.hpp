@@ -1,24 +1,23 @@
-#ifndef TESTS_H
+#ifndef TESTS_HPP
 
-#define TESTS_H
+#define TESTS_HPP
 
 #include <chrono>
-#include <osmium/memory/buffer.hpp>
+
+#include "pathfinder.hpp"
 
 namespace pathfinder {
     namespace tests {
         
-        
         ///\struct Contains the results of a test
         struct TestResults {
             uint64_t time_elapsed;
-            uint16_t edges;
+            uint16_t nodes;
             double distance;
         };
         
-        TestResults RunTests();
+        TestResults RunTests(pathfinder::algorithm alg);
         void PrintResults(TestResults results);
-        void Initialize();
     }
 }
-#endif /* TESTS_H */
+#endif /* TESTS_HPP */
