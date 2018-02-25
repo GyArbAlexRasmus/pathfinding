@@ -12,7 +12,7 @@ namespace pathfinder {
         ///\struct Contains the results of a test
         struct TestResults {
             uint64_t time_elapsed;
-            uint16_t nodes;
+            uint32_t nodes;
             double distance;
         };
         
