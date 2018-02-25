@@ -8,6 +8,9 @@
 
 namespace pathfinder {
     namespace objects {
+        
+        /// Adds a node
+        /// \param node A reference to the node to add.
         void Graph::AddNode(Node& node) {
             // If nodemap does not contain a node with the same id
             if (nodemap.find(node.id) == nodemap.end()) { 
@@ -17,6 +20,10 @@ namespace pathfinder {
             }
         }
         
+        /// Adds an edge from from_id to to_id with the given cost
+        /// \param from_id Source node ID
+        /// \param to_id Target node ID
+        /// \param cost The cost of the edge
         void Graph::AddEdge(id_t from_id, id_t to_id, cost_t cost) {
             Node* from_node = nodemap.find(from_id)->second;
             Node* to_node = nodemap.find(to_id)->second;
@@ -26,6 +33,8 @@ namespace pathfinder {
             from_node->adjacent.push_back(edge);
         }
         
+        /// Removes the node with the given ID.
+        /// \param id The ID of the node to remove
         void Graph::RemoveNode(id_t id) {
             // Return if nodemap does not contain a node with that id 
             if (nodemap.find(id) == nodemap.end()) 
@@ -46,6 +55,9 @@ namespace pathfinder {
             }
         }
         
+        /// Removes all edges between src and target
+        /// \param src Source node ID
+        /// \param target Target node ID
         void Graph::RemoveEdge(id_t src, id_t target) {
             // Return if nodemap does not contain a node with given id
             if (nodemap.find(src) == nodemap.end() ||
@@ -62,11 +74,17 @@ namespace pathfinder {
             }
         }
         
+        /// \param id The node to find
+        /// \return A pointer to the Node with the given ID
         Node* Graph::GetNode(id_t id) {
             auto node_iter = nodemap.find(id);
             return node_iter != nodemap.end ? &(*node_iter) : NULL;
         }
         
+        /// \param src Source node ID
+        /// \param target Target node ID
+        /// \return The cost of the cheapest edge between src and target, or
+        /// NULL if there is no such edge.
         cost_t Graph::GetCost(id_t src, id_t target) {
             Node* src_n = GetNode(src);
             
@@ -81,6 +99,8 @@ namespace pathfinder {
                 if (iter->second->id == target) 
                     return iter->first;
             }
+            
+            return INFINITY;
         }
     }
 }

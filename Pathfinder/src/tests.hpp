@@ -9,14 +9,15 @@
 namespace pathfinder {
     namespace tests {
         
-        ///\struct Contains the results of a test
+        /// \struct TestResults
+        /// \brief Contains the results of a test.
         struct TestResults {
-            uint64_t time_elapsed;
-            uint32_t nodes;
-            double distance;
+            uint64_t time_elapsed; ///< Time elapsed while finding path
+            uint32_t nodes; ///< number of nodes in path
+            double distance; ///< Total distance for path
         };
         
-        TestResults RunTests(pathfinder::algorithm* alg);
+        TestResults RunTests(pathfinder::Algorithm* alg);
         void PrintResults(TestResults results);
     }
 }
