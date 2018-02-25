@@ -3,6 +3,7 @@
 
 namespace pathfinder {
     namespace objects {
+        struct Node;
         typedef uint64_t id_t;
         typedef double cost_t;
         typedef std::pair<cost_t, Node*> edge; // Cost, target
@@ -29,7 +30,7 @@ namespace pathfinder {
             cost_t GetCost(id_t src, id_t target);
         };
         
-        class Path : public std::stack<id_t, std::vector> {
+        class Path {
         public:
             
         };
@@ -37,7 +38,7 @@ namespace pathfinder {
     class algorithm {
         public:
             /// \return 
-            objects::Path findWay() = 0;
+            virtual objects::Path findWay() = 0;
     };
 }
 

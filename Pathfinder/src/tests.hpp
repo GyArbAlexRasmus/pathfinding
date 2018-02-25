@@ -16,7 +16,7 @@ namespace pathfinder {
             double distance;
         };
         
-        TestResults RunTests(pathfinder::algorithm alg);
+        TestResults RunTests(pathfinder::algorithm* alg);
         void PrintResults(TestResults results);
     }
 }

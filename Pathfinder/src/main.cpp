@@ -10,9 +10,9 @@ namespace po = boost::program_options;
 int main(int argc, char* argv[]) {
     std::string filename;
     po::variables_map vm;
+    po::options_description desc("Allowed options");
     
     try {
-        po::options_description desc("Allowed options");
         desc.add_options()
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
