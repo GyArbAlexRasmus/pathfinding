@@ -19,7 +19,8 @@ namespace pathfinder {
 
             return results;
         }
-
+        
+        ///Prints the results of a test.
         /// \param results A TestResults struct containing the results of the test
         void PrintResults(TestResults results) {
             printf("Time to find path: %ull\n", results.time_elapsed);
