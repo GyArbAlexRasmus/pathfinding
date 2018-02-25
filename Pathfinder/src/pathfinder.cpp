@@ -93,14 +93,14 @@ namespace pathfinder {
             
             auto iter = src_n->adjacent.begin();
             auto end  = src_n->adjacent.end();
-
+            cost_t cheapest = INFINITY;
             // Iterates through every edge for the src node
             for (; iter != end; iter++) {
-                if (iter->second->id == target) 
-                    return iter->first;
+                if (iter->second->id == target && iter->first < cheapest) 
+                    cheapest = iter->first;
             }
             
-            return INFINITY;
+            return cheapest;
         }
     }
 }
