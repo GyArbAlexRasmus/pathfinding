@@ -5,19 +5,9 @@
 #include <chrono>
 
 #include "pathfinder.hpp"
-/*! \file tests.hpp
-    \brief Contains the definitions necessary to test algorithms.
-*/
 
-/// \namespace pathfinder
-/// \brief Contains most of the program.
 namespace pathfinder {
-    
-    /// \namespace pathfinder::tests
-    /// \brief Contains test logic.
     namespace tests {
-        
-        static objects::Graph map; ///< This contains all the information about the map.
         
         /// \struct TestResults
         /// \brief Contains the results of a test.
@@ -27,10 +17,8 @@ namespace pathfinder {
             double distance; ///< Total distance for path
         };
         
-        static void Initialize(std::string path);
-        static TestResults PrintResults(TestResults results);
-        static void RunTests(pathfinder::Algorithm* alg);
-        
+        TestResults RunTests(pathfinder::Algorithm* alg);
+        void PrintResults(TestResults results);
     }
 }
 #endif /* TESTS_HPP */

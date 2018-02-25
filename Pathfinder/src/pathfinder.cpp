@@ -9,11 +9,6 @@
 namespace pathfinder {
     namespace objects {
         
-        /// Constructs a graph.
-        Graph::Graph() {
-            nodemap = new nmap_t();
-        }
-        
         /// Adds a node
         /// \param node A reference to the node to add.
         void Graph::AddNode(Node& node) {

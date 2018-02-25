@@ -1,12 +1,7 @@
 #ifndef PATHFINDER_HPP
 #define PATHFINDER_HPP
 
-/// \file pathfinder.hpp
-/// \brief Contains most of the map definitions
 namespace pathfinder {
-    
-    /// \namespace pathfinder::objects
-    /// \brief Contains definitions for various graph objects.
     namespace objects {
         struct Node;
         typedef uint64_t id_t; ///< A node ID.
@@ -28,8 +23,6 @@ namespace pathfinder {
         public:
             typedef std::map<id_t, Node*> nmap_t;
             nmap_t nodemap; ///< Contains all nodes in the graph
-            
-            Graph();
             
             void AddNode(Node& node);
             void AddEdge(id_t src, id_t target, cost_t cost);
