@@ -22,11 +22,16 @@ namespace pathfinder {
             void RemoveNode(uint64_t id);
             void RemoveEdge(uint64_t src, uint64_t target);
         };
+        
+        class Path : public std::stack<id_t, std::vector> {
+        public:
+            
+        };
     }
     class algorithm {
         public:
             /// \return 
-            osmium::WayNodeList findWay() = 0;
+            objects::Path findWay() = 0;
     };
 }
 
