@@ -46,7 +46,8 @@ namespace pathfinder {
         
         void Graph::RemoveEdge(uint64_t src, uint64_t target) {
             // Return if nodemap does not contain a node with given id
-            if (nodemap.find(src) == nodemap.end()) 
+            if (nodemap.find(src) == nodemap.end() ||
+                nodemap.find(target) == nodemap.end()) 
                 return;
             
             auto iter = src->adjacent.begin();
