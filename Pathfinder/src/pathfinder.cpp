@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <iostream>
+#include <map>
 #include <vector>
 
 #include "pathfinder.hpp"
@@ -15,7 +16,7 @@ namespace pathfinder {
             }
         }
         
-        void Graph::AddEdge(uint64_t from_id, uint64_t to_id, double cost) {
+        void Graph::AddEdge(id_t from_id, id_t to_id, cost_t cost) {
             Node* from_node = nodemap.find(from_id)->second;
             Node* to_node = nodemap.find(to_id)->second;
             
@@ -24,7 +25,7 @@ namespace pathfinder {
             from_node->adjacent.push_back(edge);
         }
         
-        void Graph::RemoveNode(uint64_t id) {
+        void Graph::RemoveNode(id_t id) {
             // Return if nodemap does not contain a node with that id 
             if (nodemap.find(id) == nodemap.end()) 
                 return;
@@ -44,7 +45,7 @@ namespace pathfinder {
             }
         }
         
-        void Graph::RemoveEdge(uint64_t src, uint64_t target) {
+        void Graph::RemoveEdge(id_t src, id_t target) {
             // Return if nodemap does not contain a node with given id
             if (nodemap.find(src) == nodemap.end() ||
                 nodemap.find(target) == nodemap.end()) 
