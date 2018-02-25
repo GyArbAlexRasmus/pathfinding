@@ -18,11 +18,15 @@ namespace pathfinder {
         public:
             typedef std::map<id_t, Node*> nmap_t;
             nmap_t nodemap;
+            
             void AddNode(Node& node);
             void AddEdge(id_t src, id_t target, cost_t cost);
             
             void RemoveNode(id_t id);
             void RemoveEdge(id_t src, id_t target);
+            
+            Node* GetNode(id_t id);
+            cost_t GetCost(id_t src, id_t target);
         };
         
         class Path : public std::stack<id_t, std::vector> {

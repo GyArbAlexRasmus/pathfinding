@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <math.h>
 #include <vector>
 
 #include "pathfinder.hpp"
@@ -58,6 +59,27 @@ namespace pathfinder {
             for (; iter != end; iter++) {
                 if (iter->second->id == target) 
                     src->adjacent.erase(iter);
+            }
+        }
+        
+        Node* Graph::GetNode(id_t id) {
+            auto node_iter = nodemap.find(id);
+            return node_iter != nodemap.end ? &(*node_iter) : NULL;
+        }
+        
+        cost_t Graph::GetCost(id_t src, id_t target) {
+            Node* src_n = GetNode(src);
+            
+            if(src_n == NULL)
+                return INFINITY;
+            
+            auto iter = src_n->adjacent.begin();
+            auto end  = src_n->adjacent.end();
+
+            // Iterates through every edge for the src node
+            for (; iter != end; iter++) {
+                if (iter->second->id == target) 
+                    return iter->first;
             }
         }
     }
