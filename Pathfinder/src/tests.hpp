@@ -9,6 +9,8 @@
 namespace pathfinder {
     namespace tests {
         
+        static objects::Graph graph; ///< Contains the map data.
+        
         /// \struct TestResults
         /// \brief Contains the results of a test.
         struct TestResults {
