@@ -30,6 +30,7 @@ namespace pathfinder {
             cost_t GetCost(id_t src, id_t target);
         };
         
+        // TODO
         class Path {
         public:
             
