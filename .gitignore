@@ -1,3 +1,5 @@
-/Pathfinder/build/
-/Pathfinder/nbproject/
 /Pathfinder/bin/
+/Pathfinder/build/
+/Pathfinder/CMakeCache.txt
+/Pathfinder/CMakeFiles/
+/Pathfinder/nbproject/
