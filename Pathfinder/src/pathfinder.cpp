@@ -21,9 +21,9 @@ namespace pathfinder {
         }
         
         /// Adds an edge from from_id to to_id with the given cost
-        /// \param from_id
-        /// \param to_id
-        /// \param cost
+        /// \param from_id Source node ID
+        /// \param to_id Target node ID
+        /// \param cost The cost of the edge
         void Graph::AddEdge(id_t from_id, id_t to_id, cost_t cost) {
             Node* from_node = nodemap.find(from_id)->second;
             Node* to_node = nodemap.find(to_id)->second;
@@ -34,7 +34,7 @@ namespace pathfinder {
         }
         
         /// Removes the node with the given ID.
-        /// \param id
+        /// \param id The ID of the node to remove
         void Graph::RemoveNode(id_t id) {
             // Return if nodemap does not contain a node with that id 
             if (nodemap.find(id) == nodemap.end()) 
@@ -56,8 +56,8 @@ namespace pathfinder {
         }
         
         /// Removes all edges between src and target
-        /// \param src The source node ID
-        /// \param target The target node ID
+        /// \param src Source node ID
+        /// \param target Target node ID
         void Graph::RemoveEdge(id_t src, id_t target) {
             // Return if nodemap does not contain a node with given id
             if (nodemap.find(src) == nodemap.end() ||

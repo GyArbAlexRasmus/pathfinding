@@ -8,6 +8,8 @@ namespace pathfinder {
         typedef double cost_t; ///< The cost of an edge.
         typedef std::pair<cost_t, Node*> edge; ///< An edge.
         
+        /// \struct Node
+        /// \brief A node.
         struct Node {
             std::vector<edge> adjacent; ///< Contains all edges connected to the node
             id_t id; ///< The node's ID
@@ -15,7 +17,8 @@ namespace pathfinder {
             double lon; ///< Node location longitude
         };
         
-        /// Describes a graph.
+        /// \class Graph
+        /// \brief Describes a graph.
         class Graph {
         public:
             typedef std::map<id_t, Node*> nmap_t;
@@ -31,13 +34,17 @@ namespace pathfinder {
             cost_t GetCost(id_t src, id_t target);
         };
         
-        // TODO
+        /// \class Path 
+        /// \brief Describes a path.
         class Path {
         public:
             
         };
     }
-    class algorithm {
+    
+    /// \class Algorithm
+    /// \brief Describes a pathfinding algorithm.
+    class Algorithm {
         public:
             /// \return 
             virtual objects::Path findWay() = 0;
