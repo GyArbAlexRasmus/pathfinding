@@ -50,7 +50,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    
+    pathfinder::tests::Initialize();
     
     return 0;
 }
