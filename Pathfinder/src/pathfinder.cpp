@@ -50,8 +50,8 @@ namespace pathfinder {
                 nodemap.find(target) == nodemap.end()) 
                 return;
             
-            auto iter = src->adjacent.begin();
-            auto end  = src->adjacent.end();
+            auto iter = nodemap.find(src)->adjacent.begin();
+            auto end  = nodemap.find(src)->adjacent.end();
 
             // Iterates through every edge for the src node
             for (; iter != end; iter++) {
