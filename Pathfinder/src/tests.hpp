@@ -7,7 +7,7 @@
 #include "pathfinder.hpp"
 
 namespace pathfinder {
-    class tests {
+    class Tests {
         
         static objects::Graph graph; ///< Contains the map data.
         
