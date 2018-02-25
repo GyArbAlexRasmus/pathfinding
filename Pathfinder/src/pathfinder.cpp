@@ -1,7 +1,8 @@
-#include "pathfinder.hpp"
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
+
+#include "pathfinder.hpp"
 
 namespace pathfinder {
     namespace objects {
