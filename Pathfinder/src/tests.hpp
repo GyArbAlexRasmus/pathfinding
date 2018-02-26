@@ -8,9 +8,9 @@
 
 namespace pathfinder {
     class Tests {
-        
+    private:
         static objects::Graph graph; ///< Contains the map data.
-        
+    public:
         /// \struct TestResults
         /// \brief Contains the results of a test.
         struct TestResults {
@@ -21,7 +21,7 @@ namespace pathfinder {
         
         static TestResults RunTests(pathfinder::Algorithm* alg);
         static void PrintResults(TestResults results);
-        static Initialize(std::string path);
+        static void Initialize(std::string path);
     };
 }
 #endif /* TESTS_HPP */

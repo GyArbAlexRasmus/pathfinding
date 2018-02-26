@@ -32,7 +32,8 @@ namespace pathfinder {
     /// \param path The path to the file containing the data
     void Tests::Initialize(std::string path) {
         graph = new objects::Graph();
-        fileio::Reader reader();
-
+        fileio::Reader reader = new fileio::Reader(&graph, path);
+        
+        reader.Fill();
     }
 }
