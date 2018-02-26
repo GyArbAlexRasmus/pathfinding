@@ -1,6 +1,7 @@
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
+#include <string>
 #include <iostream>
 #include <iterator>
 
