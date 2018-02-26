@@ -7,7 +7,9 @@
 #include "pathfinder.hpp"
 
 namespace pathfinder {
-    namespace tests {
+    class Tests {
+        
+        static objects::Graph graph; ///< Contains the map data.
         
         /// \struct TestResults
         /// \brief Contains the results of a test.
@@ -19,6 +21,6 @@ namespace pathfinder {
         
         TestResults RunTests(pathfinder::Algorithm* alg);
         void PrintResults(TestResults results);
-    }
+    };
 }
 #endif /* TESTS_HPP */
