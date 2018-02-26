@@ -12,7 +12,8 @@ namespace pathfinder {
             objects::id_t src_id;
             objects::id_t target_id;
             objects::cost_t cost;
-            bool accessible;
+            bool accessible_fwd;
+            bool accessible_bwd;
         };
         
         class Reader {
@@ -20,9 +21,12 @@ namespace pathfinder {
             Reader(objects::Graph* graph);
             void Fill();
         private:
+            std::ifstream nodefile;
+            std::ifstream edgefile;
             objects::Graph* graph;
             objects::Node* ReadNode();
             IOEdge* ReadEdge();
+            std::vector<std::string> ReadValues(std::ifstream& stream);
         };
         
     }
