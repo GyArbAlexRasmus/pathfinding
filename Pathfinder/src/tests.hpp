@@ -19,8 +19,9 @@ namespace pathfinder {
             double distance; ///< Total distance for path
         };
         
-        TestResults RunTests(pathfinder::Algorithm* alg);
-        void PrintResults(TestResults results);
+        static TestResults RunTests(pathfinder::Algorithm* alg);
+        static void PrintResults(TestResults results);
+        static Initialize(std::string path);
     };
 }
 #endif /* TESTS_HPP */
