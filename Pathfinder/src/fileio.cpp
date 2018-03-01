@@ -1,6 +1,7 @@
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <fstream>
+#include <exception>
 
 #include "fileio.hpp"
 
