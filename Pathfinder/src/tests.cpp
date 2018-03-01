@@ -8,6 +8,7 @@
 #include "tests.hpp"
 
 namespace pathfinder {
+    
     objects::Graph* Tests::graph;
     
     /// Tests a given algorithm
@@ -33,9 +34,9 @@ namespace pathfinder {
 
     /// Initializes data from a .osm.pbf file
     /// \param path The path to the file containing the data
-    static void Tests::Initialize(std::string path) {
-        graph = new objects::Graph();
-        fileio::Reader reader = new fileio::Reader(&graph, path);
+    void Tests::Initialize(std::string path) {
+        Tests::graph = new objects::Graph();
+        fileio::Reader reader(Tests::graph, path + "/nodes.csv", path + "/edges.csv");
         
         reader.Fill();
     }
