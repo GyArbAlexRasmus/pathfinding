@@ -9,6 +9,7 @@
 #include "pathfinder.hpp"
 
 namespace pathfinder {
+    
     class Tests {
     private:
         static objects::Graph graph; ///< Contains the map data.
