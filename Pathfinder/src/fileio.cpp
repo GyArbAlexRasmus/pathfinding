@@ -14,8 +14,9 @@ namespace pathfinder {
             edgefile = std::ifstream(edgepath);
             
             // First line is garbage, skip it
-            nodefile.getline();
-            edgefile.getline();
+            std::string dummy;
+            nodefile.getline(dummy);
+            edgefile.getline(dummy);
             
             Fill();
         }
@@ -74,7 +75,8 @@ namespace pathfinder {
         
         std::vector<std::string> Reader::ReadValues(std::ifstream& stream) {
             std::vector<std::string> vec;
-            std::string str = stream.getline();
+            std::string str;
+            stream.getline(str);
             
             boost::split(vec, str, boost::is_any_of(","));
             
