@@ -15,8 +15,8 @@ namespace pathfinder {
             
             // First line is garbage, skip it
             std::string dummy;
-            nodefile.getline(dummy);
-            edgefile.getline(dummy);
+            std::getline(nodefile, dummy);
+            std::getline(edgefile, dummy);
             
             Fill();
         }
@@ -40,14 +40,14 @@ namespace pathfinder {
         }
         
         IOEdge* Reader::ReadEdge() {
-            IOEdge* edge = new objects::Node();
+            IOEdge* edge = new IOEdge();
             
             std::vector<std::string> vec = ReadValues(nodefile);
             
             if (vec.size() == 0)
-                    return NULL;
+                return NULL;
             if (vec.size() < 7) 
-                    throw new std::exception("Edge lines should have at least 7 data values");
+                return NULL;
             
             edge->src_id         = std::stoull(vec[1]);
             edge->target_id      = std::stoull(vec[2]);
@@ -64,9 +64,9 @@ namespace pathfinder {
             std::vector<std::string> vec = ReadValues(nodefile);
             
             if (vec.size() == 0)
-                    return NULL;
+                return NULL;
             if (vec.size() != 3) 
-                    throw new std::exception("Node lines should have 3 data values");
+                return NULL;
             
             node->id  = std::stoull(vec[0]);
             node->lat = std::stod(vec[1]);
@@ -76,7 +76,7 @@ namespace pathfinder {
         std::vector<std::string> Reader::ReadValues(std::ifstream& stream) {
             std::vector<std::string> vec;
             std::string str;
-            stream.getline(str);
+            std::getline(stream, str);
             
             boost::split(vec, str, boost::is_any_of(","));
             
