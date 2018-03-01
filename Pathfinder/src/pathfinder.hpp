@@ -1,6 +1,9 @@
 #ifndef PATHFINDER_HPP
 #define PATHFINDER_HPP
 
+#include <map>
+#include <vector>
+#include <utility>
 namespace pathfinder {
     namespace objects {
         struct Node;

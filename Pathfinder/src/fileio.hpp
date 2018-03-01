@@ -2,6 +2,7 @@
 #define FILEIO_HPP
 
 #include <string>
+#include <fstream>
 
 #include "pathfinder.hpp"
 

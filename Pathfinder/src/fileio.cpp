@@ -1,7 +1,8 @@
-#include "fileio.hpp"
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <fstream>
+
+#include "fileio.hpp"
 
 namespace pathfinder {
     namespace fileio {
