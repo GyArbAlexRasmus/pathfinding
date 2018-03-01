@@ -15,6 +15,9 @@ include_directories(${Boost_INCLUDE_DIRS})
 #Define version for use in program
 add_definitions(-DPATHFINDER_VERSION="${Pathfinder_VERSION}")
 
+#Get source files
+file(GLOB SOURCES src/*.cpp)
+
 add_compile_options(-g3)
-add_executable(Pathfinder src/main.cpp)
+add_executable(Pathfinder ${SOURCES})
 target_link_libraries(Pathfinder ${Boost_LIBRARIES})
