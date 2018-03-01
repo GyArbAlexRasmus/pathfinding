@@ -1,6 +1,8 @@
 #ifndef FILEIO_HPP
 #define FILEIO_HPP
 
+#include <string>
+
 #include "pathfinder.hpp"
 
 namespace pathfinder {

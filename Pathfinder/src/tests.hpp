@@ -3,6 +3,7 @@
 #define TESTS_HPP
 
 #include <chrono>
+#include <string>
 
 #include "pathfinder.hpp"
 

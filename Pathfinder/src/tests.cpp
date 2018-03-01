@@ -1,6 +1,6 @@
+#include <string>
 #include <cstdlib>
 #include <iostream>
-#include <string>
 
 #include "fileio.hpp"
 #include "pathfinder.hpp"
