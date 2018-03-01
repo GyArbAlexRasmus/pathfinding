@@ -7,10 +7,9 @@
 #include "pathfinder.hpp"
 
 namespace pathfinder {
+    
     class Tests {
-        
-        static objects::Graph graph; ///< Contains the map data.
-        
+    public:
         /// \struct TestResults
         /// \brief Contains the results of a test.
         struct TestResults {
@@ -19,8 +18,11 @@ namespace pathfinder {
             double distance; ///< Total distance for path
         };
         
-        TestResults RunTests(pathfinder::Algorithm* alg);
-        void PrintResults(TestResults results);
+        static objects::Graph* graph; ///< Contains the map data.
+        
+        static Tests::TestResults RunTests(Algorithm* alg);
+        static void PrintResults(TestResults results);
+        static void Initialize(std::string path);
     };
 }
 #endif /* TESTS_HPP */

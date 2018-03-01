@@ -10,8 +10,8 @@ namespace pathfinder {
     namespace objects {
         
         /// Constructs a graph.
-        Graph::Graph() {
-            nodemap = new nmap_t();
+        Graph::Graph() :
+            nodemap() {
         }
         
         /// Adds a node
@@ -48,14 +48,19 @@ namespace pathfinder {
             nodemap.erase(id);
             
             // Iterates through every Node* in nodemap
-            for (Node* node : nodemap) {
-                auto iter = node->adjacent.begin();
-                auto end  = node->adjacent.end();
+            
+            auto iter = nodemap.begin();
+            auto end = nodemap.end();
+            
+            for (; iter != end; iter++) {
+                Node* node = iter->second;
+                auto iterAdj = node->adjacent.begin();
+                auto endAdj  = node->adjacent.end();
                 
                 // Iterates through every edge for the current node
-                for (; iter != end; iter++) {
+                for (; iterAdj != endAdj; iterAdj++) {
                     if (iter->second->id == id) 
-                        node->adjacent.erase(iter);
+                        node->adjacent.erase(iterAdj);
                 }
             }
         }
@@ -69,13 +74,14 @@ namespace pathfinder {
                 nodemap.find(target) == nodemap.end()) 
                 return;
             
-            auto iter = nodemap.find(src)->adjacent.begin();
-            auto end  = nodemap.find(src)->adjacent.end();
-
+            Node* src_n = nodemap.find(src)->second;
+            auto iter = src_n->adjacent.begin();
+            auto end  = src_n->adjacent.end();
+            
             // Iterates through every edge for the src node
             for (; iter != end; iter++) {
                 if (iter->second->id == target) 
-                    src->adjacent.erase(iter);
+                    src_n->adjacent.erase(iter);
             }
         }
         
@@ -83,7 +89,7 @@ namespace pathfinder {
         /// \return A pointer to the Node with the given ID
         Node* Graph::GetNode(id_t id) {
             auto node_iter = nodemap.find(id);
-            return node_iter != nodemap.end ? &(*node_iter) : NULL;
+            return node_iter != nodemap.end() ? node_iter->second : NULL;
         }
         
         /// \param src Source node ID
