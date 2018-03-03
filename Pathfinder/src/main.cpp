@@ -1,6 +1,7 @@
 #include <boost/program_options.hpp>
 namespace po = boost::program_options;
 
+#include <string>
 #include <iostream>
 #include <iterator>
 
@@ -8,7 +9,7 @@ namespace po = boost::program_options;
 #include "tests.hpp"
 
 int main(int argc, char* argv[]) {
-    std::string filename;
+    std::string path;
     po::variables_map vm;
     po::options_description desc("Allowed options");
     
@@ -20,7 +21,7 @@ int main(int argc, char* argv[]) {
             ("dfs,d", "enable testing of DFS")
             ("bfs,d", "enable testing of BFS")
             ("dijkstra,D", "enable testing of Dijkstra's algorithm")
-            ("file,f", po::value<std::string>(&filename), "file from which to extract OSM data")
+            ("path,p", po::value<std::string>(&path), "path in which OSM data is stored")
         ;
 
         po::store(po::parse_command_line(argc, argv, desc), vm);
@@ -43,14 +44,15 @@ int main(int argc, char* argv[]) {
         return 0;
     }
 
-    if (vm.count("file")) {
-        std::cout << "Set OSM file to " << filename << "\n";
+    //TODO errchecking
+    if (vm.count("path")) {
+        std::cout << "Set OSM path to " << path << "\n";
     } else {
-        std::cout << "You must set a file using --file (-f).\n";
+        std::cout << "You must set a path using --path (-p).\n";
         return 1;
     }
     
-    
+    pathfinder::Tests::Initialize(path);
     
     return 0;
 }

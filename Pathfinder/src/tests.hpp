@@ -3,6 +3,8 @@
 #define TESTS_HPP
 
 #include <chrono>
+#include <string>
+#include <vector>
 
 #include "pathfinder.hpp"
 
@@ -20,7 +22,7 @@ namespace pathfinder {
         
         static objects::Graph* graph; ///< Contains the map data.
         
-        static Tests::TestResults RunTests(Algorithm* alg);
+        static TestResults RunTests(pathfinder::Algorithm* alg);
         static void PrintResults(TestResults results);
         static void Initialize(std::string path);
     };
