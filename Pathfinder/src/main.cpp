@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
     }
     
     pathfinder::Tests::Initialize(path);
+    pathfinder::Tests::PrintDiagnostics();
     
     return 0;
 }

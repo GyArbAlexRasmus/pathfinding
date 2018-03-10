@@ -7,3 +7,5 @@
 Pathfinder/Makefile
 
 Pathfinder/cmake_install\.cmake
+
+Pathfinder/compile_commands\.json
