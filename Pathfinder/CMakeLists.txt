@@ -20,4 +20,6 @@ file(GLOB SOURCES src/*.cpp)
 
 add_compile_options(-g3)
 add_executable(Pathfinder ${SOURCES})
+set(CMAKE_CXX_FLAGS -no-pie)
+
 target_link_libraries(Pathfinder ${Boost_LIBRARIES})
