@@ -36,7 +36,9 @@ namespace pathfinder {
     /// \param path The path to the file containing the data
     void Tests::Initialize(std::string path) {
         Tests::graph = new objects::Graph();
-        fileio::Reader reader(Tests::graph, path + "/nodes.csv", path + "/edges.csv");
+        fileio::Reader reader(Tests::graph,
+                              path + "/nodes.csv",
+                              path + "/edges.csv");
         
         reader.Fill();
     }

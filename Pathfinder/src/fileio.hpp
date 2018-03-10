@@ -21,7 +21,9 @@ namespace pathfinder {
         
         class Reader {
         public:
-            Reader(objects::Graph* graph, std::string nodepath, std::string edgepath);
+            Reader(objects::Graph* graph,
+                   std::string nodepath,
+                   std::string edgepath);
             void Fill();
         private:
             std::ifstream nodefile;

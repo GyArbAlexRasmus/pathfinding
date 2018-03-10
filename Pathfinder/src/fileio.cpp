@@ -7,7 +7,9 @@
 
 namespace pathfinder {
     namespace fileio {
-        Reader::Reader(objects::Graph* graph, std::string nodepath, std::string edgepath) {
+        Reader::Reader(objects::Graph* graph,
+                       std::string nodepath,
+                       std::string edgepath) {
             this->graph = graph;
             
             nodefile = std::ifstream(nodepath);
@@ -31,9 +33,14 @@ namespace pathfinder {
             
             while((cur_e = ReadEdge()) != NULL) {
                 if(cur_e->accessible_fwd) 
-                    graph->AddEdge(cur_e->src_id, cur_e->target_id, cur_e->cost);
+                    graph->AddEdge(cur_e->src_id,
+                    cur_e->target_id,
+                    cur_e->cost);
+                
                 if(cur_e->accessible_bwd)
-                    graph->AddEdge(cur_e->target_id, cur_e->src_id, cur_e->cost);
+                    graph->AddEdge(cur_e->target_id,
+                    cur_e->src_id,
+                    cur_e->cost);
                 
                 delete cur_e; // prevent mem leaks
             }
