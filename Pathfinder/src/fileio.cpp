@@ -19,8 +19,6 @@ namespace pathfinder {
             std::string dummy;
             std::getline(nodefile, dummy);
             std::getline(edgefile, dummy);
-            
-            Fill();
         }
         
         void Reader::Fill() {
@@ -49,7 +47,7 @@ namespace pathfinder {
         IOEdge* Reader::ReadEdge() {
             IOEdge* edge = new IOEdge();
             
-            std::vector<std::string> vec = ReadValues(nodefile);
+            std::vector<std::string> vec = ReadValues(edgefile);
             
             if (vec.size() == 0)
                 return NULL;
@@ -78,6 +76,8 @@ namespace pathfinder {
             node->id  = std::stoull(vec[0]);
             node->lat = std::stod(vec[1]);
             node->lon = std::stod(vec[2]);
+            
+            return node;
         }
         
         std::vector<std::string> Reader::ReadValues(std::ifstream& stream) {
