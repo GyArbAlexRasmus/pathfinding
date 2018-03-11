@@ -1,10 +1,8 @@
 #include <cstdlib>
 #include <iostream>
-#include <string>
 #include <utility>
 
 #include "fileio.hpp"
-#include "pathfinder.hpp"
 #include "tests.hpp"
 
 namespace pathfinder {

@@ -9,3 +9,7 @@ Pathfinder/Makefile
 Pathfinder/cmake_install\.cmake
 
 Pathfinder/compile_commands\.json
+
+Pathfinder/\.idea/
+
+Pathfinder/Pathfinder\.cbp

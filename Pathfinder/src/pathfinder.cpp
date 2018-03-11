@@ -2,22 +2,19 @@
 #include <boost/format.hpp>
 #include <iostream>
 #include <map>
-#include <math.h>
-#include <vector>
-#include <utility>
+#include <cmath>
 #include <stack>
-#include <stdexcept>
 
 #include "pathfinder.hpp"
 
 namespace pathfinder {
     namespace objects {
-        
+
         /// Constructs a graph.
         Graph::Graph() :
             nodemap() {
         }
-        
+
         /// Adds a node
         /// \param node A reference to the node to add.
         void Graph::AddNode(Node& node) {
@@ -43,7 +40,7 @@ namespace pathfinder {
         }
 
         uint64_t Graph::CountEdges() {
-            uint64_t count;
+            uint64_t count = 0;
             for (std::pair<id_t, objects::Node*> pair : nodemap) {
                 count += pair.second->adjacent.size();
             }
@@ -70,7 +67,7 @@ namespace pathfinder {
         cost_t Graph::GetCost(id_t src, id_t target) {
             Node* src_n = GetNode(src);
             
-            if(src_n == NULL)
+            if(src_n == nullptr)
                 return INFINITY;
             
             auto iter = src_n->adjacent.begin();
@@ -88,7 +85,7 @@ namespace pathfinder {
         /// \param id ID of node to look for
         /// \return True if graph has a node with given ID; otherwise false
         bool Graph::HasNode(id_t id) {
-            return this->GetNode(id) != NULL;
+            return this->GetNode(id) != nullptr;
         }
 
         /// Removes the node with the given ID.

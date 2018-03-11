@@ -1,7 +1,6 @@
 #include <boost/algorithm/string.hpp>
 #include <vector>
 #include <fstream>
-#include <exception>
 
 #include "fileio.hpp"
 
@@ -24,11 +23,11 @@ namespace pathfinder {
             objects::Node* cur_n;
             IOEdge* cur_e;
             
-            while((cur_n = ReadNode()) != NULL) {
+            while((cur_n = ReadNode()) != nullptr) {
                 graph->AddNode(*cur_n);
             }
             
-            while((cur_e = ReadEdge()) != NULL) {
+            while((cur_e = ReadEdge()) != nullptr) {
                 if(cur_e->accessible_fwd) 
                     graph->AddEdge(cur_e->src_id,
                     cur_e->target_id,
@@ -44,14 +43,14 @@ namespace pathfinder {
         }
         
         IOEdge* Reader::ReadEdge() {
-            IOEdge* edge = new IOEdge();
+            auto edge = new IOEdge();
             
             std::vector<std::string> vec = ReadValues(edgefile);
             
             if (vec.size() == 0)
-                return NULL;
+                return nullptr;
             if (vec.size() < 7) 
-                return NULL;
+                return nullptr;
             
             edge->src_id         = std::stoull(vec[1]);
             edge->target_id      = std::stoull(vec[2]);
@@ -63,14 +62,14 @@ namespace pathfinder {
         }
         
         objects::Node* Reader::ReadNode() {
-            objects::Node* node = new objects::Node();
+            auto node = new objects::Node();
             
             std::vector<std::string> vec = ReadValues(nodefile);
             
             if (vec.size() == 0)
-                return NULL;
+                return nullptr;
             if (vec.size() != 3) 
-                return NULL;
+                return nullptr;
             
             node->id  = std::stoull(vec[0]);
             node->lat = std::stod(vec[1]);
