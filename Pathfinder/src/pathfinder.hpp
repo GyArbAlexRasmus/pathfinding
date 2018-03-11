@@ -2,6 +2,7 @@
 #define PATHFINDER_HPP
 
 #include <map>
+#include <stack>
 #include <utility>
 #include <vector>
 
@@ -27,23 +28,41 @@ namespace pathfinder {
         public:
             Graph();
             typedef std::map<id_t, Node*> nmap_t;
-            nmap_t nodemap; ///< Contains all nodes in the graph
             
             void AddNode(Node& node);
             void AddEdge(id_t src, id_t target, cost_t cost);
             
-            void RemoveNode(id_t id);
-            void RemoveEdge(id_t src, id_t target);
+            uint64_t CountEdges();
+            uint64_t CountNodes();
             
             Node* GetNode(id_t id);
             cost_t GetCost(id_t src, id_t target);
+            
+            bool HasNode(id_t id);
+            
+            void RemoveNode(id_t id);
+            void RemoveEdge(id_t src, id_t target);
+            
+        private:
+            nmap_t nodemap; ///< Contains all nodes in the graph
+        
         };
         
         /// \class Path 
         /// \brief Describes a path.
-        class Path {
+        struct Path {
+        private:
+            std::vector<id_t> nodes;
+            Graph* graph;
         public:
+            Path(Graph* graph);
             
+            bool IsConnected();
+            cost_t GetCost();
+            void Pop();
+            void Push(id_t id);
+            id_t Top();
+            size_t Size();
         };
     }
     

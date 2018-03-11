@@ -1,9 +1,12 @@
 #include <algorithm>
+#include <boost/format.hpp>
 #include <iostream>
 #include <map>
 #include <math.h>
 #include <vector>
 #include <utility>
+#include <stack>
+#include <stdexcept>
 
 #include "pathfinder.hpp"
 
@@ -38,7 +41,56 @@ namespace pathfinder {
             
             from_node->adjacent.push_back(edge);
         }
+
+        uint64_t Graph::CountEdges() {
+            uint64_t count;
+            for (std::pair<id_t, objects::Node*> pair : nodemap) {
+                count += pair.second->adjacent.size();
+            }
+            
+            return count;
+        }
+
+        uint64_t Graph::CountNodes() {
+            return nodemap.size();
+        }
         
+        /// \param id The node to find
+        /// \return A pointer to the Node with the given ID, or NULL if there
+        /// is no such node.
+        Node* Graph::GetNode(id_t id) {
+            auto node_iter = nodemap.find(id);
+            return node_iter != nodemap.end() ? node_iter->second : NULL;
+        }
+        
+        /// \param src Source node ID
+        /// \param target Target node ID
+        /// \return The cost of the cheapest edge between src and target, or
+        /// INFINITY if there is no such edge.
+        cost_t Graph::GetCost(id_t src, id_t target) {
+            Node* src_n = GetNode(src);
+            
+            if(src_n == NULL)
+                return INFINITY;
+            
+            auto iter = src_n->adjacent.begin();
+            auto end  = src_n->adjacent.end();
+            cost_t cheapest = INFINITY;
+            // Iterates through every edge for the src node
+            for (; iter != end; iter++) {
+                if (iter->second->id == target && iter->first < cheapest) 
+                    cheapest = iter->first;
+            }
+            
+            return cheapest;
+        }
+        
+        /// \param id ID of node to look for
+        /// \return True if graph has a node with given ID; otherwise false
+        bool Graph::HasNode(id_t id) {
+            return this->GetNode(id) != NULL;
+        }
+
         /// Removes the node with the given ID.
         /// \param id The ID of the node to remove
         void Graph::RemoveNode(id_t id) {
@@ -86,33 +138,58 @@ namespace pathfinder {
             }
         }
         
-        /// \param id The node to find
-        /// \return A pointer to the Node with the given ID
-        Node* Graph::GetNode(id_t id) {
-            auto node_iter = nodemap.find(id);
-            return node_iter != nodemap.end() ? node_iter->second : NULL;
+        Path::Path(Graph* graph) :
+            nodes() {
+            this->graph = graph;
         }
         
-        /// \param src Source node ID
-        /// \param target Target node ID
-        /// \return The cost of the cheapest edge between src and target, or
-        /// NULL if there is no such edge.
-        cost_t Graph::GetCost(id_t src, id_t target) {
-            Node* src_n = GetNode(src);
-            
-            if(src_n == NULL)
-                return INFINITY;
-            
-            auto iter = src_n->adjacent.begin();
-            auto end  = src_n->adjacent.end();
-            cost_t cheapest = INFINITY;
-            // Iterates through every edge for the src node
-            for (; iter != end; iter++) {
-                if (iter->second->id == target && iter->first < cheapest) 
-                    cheapest = iter->first;
+        bool Path::IsConnected() {
+            for(int i = 0; i < Size() - 1; i++) {
+                
+                // We found a missing link, return false
+                if(graph->GetCost(nodes[i], nodes[i + 1]) == INFINITY)
+                    return false;
             }
             
-            return cheapest;
+            return true;
+        }
+
+        objects::cost_t Path::GetCost() {
+            cost_t cost = 0;
+            
+            for(int i = 0; i < Size() - 1; i++) {
+                cost_t newCost = graph->GetCost(nodes[i], nodes[i + 1]);
+                
+                // We found a missing link
+                if(newCost == INFINITY)
+                    return cost;
+                
+                cost += newCost;
+            }
+            
+            return cost;
+        }
+
+        void Path::Pop() {
+            nodes.pop_back();
+        }
+        
+        void Path::Push(id_t id) {
+            if(!graph->HasNode(id))
+                throw std::logic_error("Path::Push: No node with given ID");
+            
+            if(graph->GetCost(Top(), id) == INFINITY) 
+                throw std::logic_error("Path::Push: No edge between nodes");
+            
+            nodes.push_back(id);
+        }
+        
+        id_t Path::Top() {
+            return nodes[nodes.size() - 1];
+        }
+        
+        size_t Path::Size() {
+            return nodes.size();
         }
     }
 }

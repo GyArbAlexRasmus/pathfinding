@@ -27,16 +27,9 @@ namespace pathfinder {
     /// Prints some diagnostics data, including the number of loaded nodes and
     /// edges.
     void Tests::PrintDiagnostics() {
-        long unsigned int edges = 0;
         
-        
-        // Count edges
-        for (std::pair<id_t, objects::Node*> pair : graph->nodemap) {
-            edges += pair.second->adjacent.size();
-        }
-        
-        printf("Nodes in graph: %lu\n", graph->nodemap.size());
-        printf("Edges in graph: %lu\n", edges);
+        printf("Nodes in graph: %lu\n", graph->CountNodes());
+        printf("Edges in graph: %lu\n", graph->CountEdges());
     }
     
     ///Prints the results of a test.

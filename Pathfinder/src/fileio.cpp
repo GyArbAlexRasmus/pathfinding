@@ -9,11 +9,10 @@ namespace pathfinder {
     namespace fileio {
         Reader::Reader(objects::Graph* graph,
                        std::string nodepath,
-                       std::string edgepath) {
+                       std::string edgepath) :
+                            nodefile(nodepath),
+                            edgefile(edgepath) {
             this->graph = graph;
-            
-            nodefile = std::ifstream(nodepath);
-            edgefile = std::ifstream(edgepath);
             
             // First line is garbage, skip it
             std::string dummy;
