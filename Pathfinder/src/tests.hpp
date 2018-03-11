@@ -9,7 +9,6 @@
 #include "pathfinder.hpp"
 
 namespace pathfinder {
-    
     class Tests {
     public:
         /// \struct TestResults

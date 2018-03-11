@@ -14,7 +14,7 @@ namespace pathfinder {
     /// \return A TestResults struct containing the results of the test, or
     /// null if data was not initialized.
     Tests::TestResults Tests::RunTests(Algorithm* alg) {
-        TestResults results;
+        TestResults results = pathfinder::Tests::TestResults();
 
         std::clock_t start = std::clock();
         alg->FindWay(1, 2); // TODO
