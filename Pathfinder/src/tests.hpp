@@ -9,7 +9,6 @@
 #include "pathfinder.hpp"
 
 namespace pathfinder {
-    
     class Tests {
     public:
         /// \struct TestResults
@@ -17,7 +16,7 @@ namespace pathfinder {
         struct TestResults {
             uint64_t time_elapsed; ///< Time elapsed while finding path
             uint32_t nodes; ///< number of nodes in path
-            double distance; ///< Total distance for path
+            objects::cost_t distance; ///< Total distance for path
         };
         
         static objects::Graph* graph; ///< Contains the map data.

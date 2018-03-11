@@ -1,10 +1,8 @@
 #include <cstdlib>
 #include <iostream>
-#include <string>
 #include <utility>
 
 #include "fileio.hpp"
-#include "pathfinder.hpp"
 #include "tests.hpp"
 
 namespace pathfinder {
@@ -16,10 +14,10 @@ namespace pathfinder {
     /// \return A TestResults struct containing the results of the test, or
     /// null if data was not initialized.
     Tests::TestResults Tests::RunTests(Algorithm* alg) {
-        TestResults results;
+        TestResults results = pathfinder::Tests::TestResults();
 
         std::clock_t start = std::clock();
-        alg->findWay();
+        alg->FindWay(1, 2); // TODO
 
         return results;
     }
@@ -27,16 +25,9 @@ namespace pathfinder {
     /// Prints some diagnostics data, including the number of loaded nodes and
     /// edges.
     void Tests::PrintDiagnostics() {
-        long unsigned int edges = 0;
         
-        
-        // Count edges
-        for (std::pair<id_t, objects::Node*> pair : graph->nodemap) {
-            edges += pair.second->adjacent.size();
-        }
-        
-        printf("Nodes in graph: %lu\n", graph->nodemap.size());
-        printf("Edges in graph: %lu\n", edges);
+        printf("Nodes in graph: %lu\n", graph->CountNodes());
+        printf("Edges in graph: %lu\n", graph->CountEdges());
     }
     
     ///Prints the results of a test.
