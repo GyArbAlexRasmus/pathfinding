@@ -1,12 +1,12 @@
 #ifndef TESTS_HPP
-
 #define TESTS_HPP
 
 #include <chrono>
 #include <string>
 #include <vector>
 
-#include "pathfinder.hpp"
+#include "algorithm.hpp"
+#include "node.hpp"
 
 namespace pathfinder {
     class Tests {

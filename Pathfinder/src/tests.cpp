@@ -2,6 +2,7 @@
 #include <iostream>
 #include <utility>
 
+#include "algorithm.hpp"
 #include "fileio.hpp"
 #include "tests.hpp"
 

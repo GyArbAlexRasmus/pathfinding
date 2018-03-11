@@ -3,7 +3,6 @@ namespace po = boost::program_options;
 
 #include <iostream>
 
-#include "pathfinder.hpp"
 #include "tests.hpp"
 
 int main(int argc, char* argv[]) {

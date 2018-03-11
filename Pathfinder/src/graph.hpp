@@ -1,0 +1,38 @@
+#ifndef GRAPH_HPP
+#define GRAPH_HPP
+
+#include <map>
+
+#include "node.hpp"
+
+namespace pathfinder {
+    namespace objects {
+        /// \class Graph
+        /// \brief Describes a graph.
+        class Graph {
+        public:
+            Graph();
+            typedef std::map<id_t, Node*> nmap_t;
+
+            void AddNode(Node& node);
+            void AddEdge(id_t src, id_t target, cost_t cost);
+
+            uint64_t CountEdges();
+            uint64_t CountNodes();
+
+            Node* GetNode(id_t id);
+            cost_t GetCost(id_t src, id_t target);
+
+            bool HasNode(id_t id);
+
+            void RemoveNode(id_t id);
+            void RemoveEdge(id_t src, id_t target);
+
+        private:
+            nmap_t nodemap; ///< Contains all nodes in the graph
+        };
+    }
+}
+
+
+#endif /* GRAPH_HPP */

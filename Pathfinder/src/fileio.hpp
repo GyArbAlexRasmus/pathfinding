@@ -1,10 +1,11 @@
 #ifndef FILEIO_HPP
 #define FILEIO_HPP
 
-#include <string>
 #include <fstream>
+#include <string>
 
-#include "pathfinder.hpp"
+#include "graph.hpp"
+#include "node.hpp"
 
 namespace pathfinder {
     namespace fileio {
@@ -33,7 +34,6 @@ namespace pathfinder {
             IOEdge* ReadEdge();
             std::vector<std::string> ReadValues(std::ifstream& stream);
         };
-        
     }
 }
 
