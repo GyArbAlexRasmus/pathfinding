@@ -17,7 +17,7 @@ namespace pathfinder {
         TestResults results;
 
         std::clock_t start = std::clock();
-        alg->findWay();
+        alg->FindWay(1, 2); // TODO
 
         return results;
     }
