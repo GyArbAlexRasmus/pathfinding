@@ -14,7 +14,7 @@ namespace pathfinder {
     /// \param alg The algorithm to test
     /// \return A TestResults struct containing the results of the test, or
     /// null if data was not initialized.
-    Tests::TestResults Tests::RunTests(Algorithm* alg) {
+    Tests::TestResults Tests::RunTests(algorithms::Algorithm* alg) {
         TestResults results = pathfinder::Tests::TestResults();
 
         std::clock_t start = std::clock();

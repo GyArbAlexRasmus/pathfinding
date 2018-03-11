@@ -21,7 +21,7 @@ namespace pathfinder {
         
         static objects::Graph* graph; ///< Contains the map data.
         
-        static TestResults RunTests(pathfinder::Algorithm* alg);
+        static TestResults RunTests(algorithms::Algorithm* alg);
         static void PrintDiagnostics();
         static void PrintResults(TestResults results);
         static void Initialize(std::string path);
