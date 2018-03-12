@@ -14,14 +14,18 @@ namespace pathfinder {
         /// \struct TestResults
         /// \brief Contains the results of a test.
         struct TestResults {
+            std::string name;
             uint64_t time_elapsed; ///< Time elapsed while finding path
-            uint32_t nodes; ///< number of nodes in path
-            objects::cost_t distance; ///< Total distance for path
+            size_t nodes; ///< number of nodes in path
+            objects::cost_t cost; ///< Total distance for path
         };
         
         static objects::Graph* graph; ///< Contains the map data.
-        
-        static TestResults RunTests(algorithms::Algorithm* alg);
+
+        static TestResults RunTests(algorithms::Algorithm* alg,
+                                    objects::id_t src,
+                                    objects::id_t target);
+
         static void PrintDiagnostics();
         static void PrintResults(TestResults results);
         static void Initialize(std::string path);
