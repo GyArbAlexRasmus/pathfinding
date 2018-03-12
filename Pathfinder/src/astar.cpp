@@ -1,9 +1,8 @@
-
-
 #include <algorithm>
 #include <cmath>
 
 #include "algorithm.hpp"
+#include "astar.hpp"
 #include "math.hpp"
 
 namespace pathfinder {

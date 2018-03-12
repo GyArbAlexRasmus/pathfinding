@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "tests.hpp"
+#include "astar.hpp"
 
 namespace po = boost::program_options;
 namespace pf = pathfinder;
