@@ -25,6 +25,8 @@ namespace pathfinder {
 
             bool HasNode(id_t id);
 
+            id_t RandomID();
+
             void RemoveNode(id_t id);
             void RemoveEdge(id_t src, id_t target);
 

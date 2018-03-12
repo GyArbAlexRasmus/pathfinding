@@ -14,6 +14,10 @@ namespace pathfinder {
         protected:
             objects::Graph* graph;
         public:
+            virtual std::string GetName() = 0;
+
+            Algorithm(objects::Graph* g);
+
             /// Find a path between two nodes on a graph
             /// \param src The source node ID
             /// \param target The target node ID
@@ -21,11 +25,10 @@ namespace pathfinder {
             /// should attempt to find a path
             /// \return A Path object describing a path between two nodes
             virtual objects::Path FindWay(objects::id_t src,
-                                          objects::id_t target,
-                                          objects::Graph* graph) = 0;
+                                          objects::id_t target) = 0;
         };
 
-        class AStar : Algorithm {
+        class AStar : public Algorithm {
         private:
             // The nodes which have already been checked
             std::vector<objects::id_t> closedSet;
@@ -51,7 +54,11 @@ namespace pathfinder {
             objects::Path ReconstructPath(objects::id_t src, objects::id_t target);
 
         public:
-            objects::Path FindWay(objects::id_t src, objects::id_t target);
+            AStar(objects::Graph* g);
+
+            std::string GetName();
+            objects::Path FindWay(objects::id_t src,
+                                  objects::id_t target);
         };
     }
 }

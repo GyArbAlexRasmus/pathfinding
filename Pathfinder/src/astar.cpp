@@ -1,8 +1,9 @@
 
-#include "algorithm.hpp"
 
+#include <algorithm>
 #include <cmath>
 
+#include "algorithm.hpp"
 #include "math.hpp"
 
 namespace pathfinder {
@@ -68,12 +69,24 @@ namespace pathfinder {
                 current = bestReachedFrom[current];
             } while(current != src);
 
-            for(auto iter = nodes.rbegin(); iter != nodes.rend(); iter++) {
-                path.Push(*iter);
+            nodes.push_back(current); // Make sure to get src, too
+
+            std::reverse(nodes.begin(), nodes.end());
+
+            for(objects::id_t node : nodes) {
+                path.Push(node);
             }
+
+            return path;
         }
 
-        objects::Path AStar::FindWay(objects::id_t src, objects::id_t target) {
+        std::string AStar::GetName() {
+            return "A*";
+        }
+
+        objects::Path AStar::FindWay(objects::id_t src,
+                                     objects::id_t target) {
+
             // Initially, src is the only discovered node.
             openSet.push_back(src);
 
@@ -118,9 +131,10 @@ namespace pathfinder {
                     costToMap[neighbor] = tentative_cost;
                     costFromMap[neighbor] =
                             tentative_cost + Heuristic(neighbor, target);
-
                 }
             }
         }
+
+        AStar::AStar(objects::Graph* g) : Algorithm(g) { }
     }
 }

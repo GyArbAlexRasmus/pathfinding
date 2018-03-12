@@ -92,7 +92,14 @@ namespace pathfinder {
         /// \param id ID of node to look for
         /// \return True if graph has a node with given ID; otherwise false
         bool Graph::HasNode(id_t id) {
-            return this->GetNode(id) != nullptr;
+            return GetNode(id) != nullptr;
+        }
+
+        /// Gets the ID of a random node in the graph.
+        /// \return The ID of a random node in the graph.
+        id_t Graph::RandomID() {
+            // It Works™
+            return (*std::next(std::begin(nodemap), rand() % nodemap.size())).first;
         }
 
         /// Removes the node with the given ID.

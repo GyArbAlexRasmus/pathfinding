@@ -1,22 +1,26 @@
 #include <boost/program_options.hpp>
-namespace po = boost::program_options;
 
 #include <iostream>
 
 #include "tests.hpp"
 
+namespace po = boost::program_options;
+namespace pf = pathfinder;
+namespace objs = pf::objects;
+
 int main(int argc, char* argv[]) {
     std::string path;
     po::variables_map vm;
     po::options_description desc("Allowed options");
-    
+    std::vector<pf::algorithms::Algorithm*> algs;
+    std::vector<pf::Tests::TestResults> results;
     try {
         desc.add_options()
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
             ("astar,a", "enable testing of A*")
             ("dfs,d", "enable testing of DFS")
-            ("bfs,d", "enable testing of BFS")
+            ("bfs,b", "enable testing of BFS")
             ("dijkstra,D", "enable testing of Dijkstra's algorithm")
             ("path,p", po::value<std::string>(&path), "path in which OSM data is stored")
         ;
@@ -49,8 +53,34 @@ int main(int argc, char* argv[]) {
         return 1;
     }
     
-    pathfinder::Tests::Initialize(path);
-    pathfinder::Tests::PrintDiagnostics();
+    pf::Tests::Initialize(path);
+    pf::Tests::PrintDiagnostics();
+
+    if (vm.count("astar")) {
+        pf::algorithms::Algorithm* astar = new
+                pf::algorithms::AStar(pf::Tests::graph);
+
+        algs.push_back(astar);
+    }
+
+    // TODO implement testing for argument-specified nodes
+    objs::id_t src, target;
+
+    src    = pf::Tests::graph->RandomID();
+    target = pf::Tests::graph->RandomID();
     
+/*
+    src = 1459711096;
+    target = 2427713664;
+*/
+
+    for(pf::algorithms::Algorithm* alg : algs) {
+        results.push_back(pf::Tests::RunTests(alg, src, target));
+    }
+
+    for(pf::Tests::TestResults res : results) {
+        pf::Tests::PrintResults(res);
+    }
+
     return 0;
 }
