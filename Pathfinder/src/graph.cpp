@@ -1,12 +1,11 @@
 #include <algorithm>
 #include <boost/format.hpp>
 #include <cmath>
+#include <unordered_map>
 #include <iostream>
-#include <map>
 #include <stack>
 
 #include "graph.hpp"
-#include "node.hpp"
 
 namespace pathfinder {
     namespace objects {

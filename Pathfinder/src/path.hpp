@@ -12,7 +12,7 @@ namespace pathfinder {
             std::vector<id_t> nodes;
             Graph* graph;
         public:
-            Path(Graph* graph);
+            explicit Path(Graph* graph);
 
             bool IsConnected();
             cost_t GetCost();
