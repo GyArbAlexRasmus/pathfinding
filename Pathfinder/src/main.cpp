@@ -82,5 +82,7 @@ int main(int argc, char* argv[]) {
         pf::Tests::PrintResults(res);
     }
 
+    pf::Tests::DeInitialize();
+
     return 0;
 }

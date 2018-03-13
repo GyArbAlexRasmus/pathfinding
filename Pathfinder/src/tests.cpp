@@ -66,5 +66,7 @@ namespace pathfinder {
         reader.Fill();
     }
 
-
+    void Tests::DeInitialize() {
+        delete graph;
+    }
 }

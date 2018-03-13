@@ -29,6 +29,7 @@ namespace pathfinder {
         static void PrintDiagnostics();
         static void PrintResults(TestResults results);
         static void Initialize(std::string path);
+        static void DeInitialize();
     };
 }
 #endif /* TESTS_HPP */
