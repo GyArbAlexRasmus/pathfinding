@@ -1,6 +1,7 @@
 #include <boost/program_options.hpp>
 
 #include <iostream>
+#include <random>
 
 #include "tests.hpp"
 #include "astar.hpp"
@@ -67,13 +68,11 @@ int main(int argc, char* argv[]) {
     // TODO implement testing for argument-specified nodes
     objs::id_t src, target;
 
+    //Initialize seed
+    srand(std::random_device()());
+
     src    = pf::Tests::graph->RandomID();
     target = pf::Tests::graph->RandomID();
-    
-/*
-    src = 1459711096;
-    target = 2427713664;
-*/
 
     for(pf::algorithms::Algorithm* alg : algs) {
         results.push_back(pf::Tests::RunTests(alg, src, target));
