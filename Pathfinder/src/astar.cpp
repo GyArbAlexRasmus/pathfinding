@@ -132,6 +132,8 @@ namespace pathfinder {
                             tentative_cost + Heuristic(neighbor, target);
                 }
             }
+
+            throw std::logic_error("No path found");
         }
 
         AStar::AStar(objects::Graph* g) : Algorithm(g) { }
