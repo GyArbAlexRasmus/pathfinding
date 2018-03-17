@@ -21,9 +21,7 @@ int main(int argc, char* argv[]) {
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
             ("astar,a", "enable testing of A*")
-            ("dfs,d", "enable testing of DFS")
-            ("bfs,b", "enable testing of BFS")
-            ("dijkstra,D", "enable testing of Dijkstra's algorithm")
+            ("dijkstra,d", "enable testing of Dijkstra's algorithm")
             ("path,p", po::value<std::string>(&path), "path in which OSM data is stored")
         ;
 
