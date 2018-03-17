@@ -18,7 +18,7 @@ add_definitions(-DPATHFINDER_VERSION="${Pathfinder_VERSION}")
 #Get source files
 file(GLOB SOURCES src/*.cpp)
 
-add_compile_options(-g3)
+add_compile_options(-g3 -O3)
 add_executable(Pathfinder ${SOURCES})
 set(CMAKE_CXX_FLAGS -no-pie)
 

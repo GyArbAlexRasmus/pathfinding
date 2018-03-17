@@ -8,7 +8,7 @@
 
 namespace pathfinder {
     namespace objects {
-        struct Node;
+        struct Node; // Forward declaration
         typedef uint64_t id_t; ///< A node ID.
         typedef double cost_t; ///< The cost of an edge.
         typedef std::pair<cost_t, Node*> edge; ///< An edge.

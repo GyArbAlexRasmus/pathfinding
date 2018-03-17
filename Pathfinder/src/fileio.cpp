@@ -1,5 +1,6 @@
 #include <boost/algorithm/string.hpp>
 #include <fstream>
+#include <iostream>
 #include <vector>
 
 #include "fileio.hpp"
@@ -22,11 +23,15 @@ namespace pathfinder {
         void Reader::Fill() {
             objects::Node* cur_n;
             IOEdge* cur_e;
-            
+
+            std::cout << "\n\nReading data from node file...\n";
+
             while((cur_n = ReadNode()) != nullptr) {
                 graph->AddNode(*cur_n);
             }
-            
+
+            std::cout << "Reading data from edge file...\n\n";
+
             while((cur_e = ReadEdge()) != nullptr) {
                 if(cur_e->accessible_fwd) 
                     graph->AddEdge(cur_e->src_id,
