@@ -1,11 +1,12 @@
 #include <algorithm>
 #include <boost/format.hpp>
 #include <cmath>
-#include <unordered_map>
 #include <iostream>
+#include <map>
 #include <stack>
 
 #include "graph.hpp"
+#include "node.hpp"
 
 namespace pathfinder {
     namespace objects {
@@ -92,14 +93,7 @@ namespace pathfinder {
         /// \param id ID of node to look for
         /// \return True if graph has a node with given ID; otherwise false
         bool Graph::HasNode(id_t id) {
-            return GetNode(id) != nullptr;
-        }
-
-        /// Gets the ID of a random node in the graph.
-        /// \return The ID of a random node in the graph.
-        id_t Graph::RandomID() {
-            // It Works™
-            return (*std::next(std::begin(nodemap), rand() % nodemap.size())).first;
+            return this->GetNode(id) != nullptr;
         }
 
         /// Removes the node with the given ID.

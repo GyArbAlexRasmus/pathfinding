@@ -54,14 +54,11 @@ namespace pathfinder {
         /// if there's no valid edge between the current top node and the given
         /// node
         void Path::Push(id_t id) {
-
             if(!graph->HasNode(id))
                 throw std::logic_error("Path::Push: No node with given ID");
 
-            if (Size() > 0) {
-                if(graph->GetCost(Top(), id) == INFINITY)
-                    throw std::logic_error("Path::Push: No edge between nodes");
-            }
+            if(graph->GetCost(Top(), id) == INFINITY)
+                throw std::logic_error("Path::Push: No edge between nodes");
 
             nodes.push_back(id);
         }

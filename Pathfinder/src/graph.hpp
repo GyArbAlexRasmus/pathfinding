@@ -1,7 +1,7 @@
 #ifndef GRAPH_HPP
 #define GRAPH_HPP
 
-#include <unordered_map>
+#include <map>
 
 #include "node.hpp"
 
@@ -12,7 +12,7 @@ namespace pathfinder {
         class Graph {
         public:
             Graph();
-            typedef std::unordered_map<id_t, Node*> nmap_t;
+            typedef std::map<id_t, Node*> nmap_t;
 
             void AddNode(Node& node);
             void AddEdge(id_t src, id_t target, cost_t cost);
@@ -24,8 +24,6 @@ namespace pathfinder {
             cost_t GetCost(id_t src, id_t target);
 
             bool HasNode(id_t id);
-
-            id_t RandomID();
 
             void RemoveNode(id_t id);
             void RemoveEdge(id_t src, id_t target);
