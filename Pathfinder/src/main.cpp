@@ -3,8 +3,9 @@
 #include <iostream>
 #include <random>
 
-#include "tests.hpp"
 #include "astar.hpp"
+#include "dijkstra.hpp"
+#include "tests.hpp"
 
 namespace po = boost::program_options;
 namespace pf = pathfinder;
@@ -61,6 +62,13 @@ int main(int argc, char* argv[]) {
                 pf::algorithms::AStar(pf::Tests::graph);
 
         algs.push_back(astar);
+    }
+
+    if (vm.count("dijkstra")) {
+        pf::algorithms::Algorithm* dijkstra = new
+                pf::algorithms::Dijkstra(pf::Tests::graph);
+
+        algs.push_back(dijkstra);
     }
 
     // TODO implement testing for argument-specified nodes
