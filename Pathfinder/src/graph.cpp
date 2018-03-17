@@ -6,6 +6,7 @@
 #include <stack>
 
 #include "graph.hpp"
+#include "math.hpp"
 
 namespace pathfinder {
     namespace objects {
@@ -33,6 +34,10 @@ namespace pathfinder {
         void Graph::AddEdge(id_t from_id, id_t to_id, cost_t cost) {
             Node* from_node = nodemap.find(from_id)->second;
             Node* to_node = nodemap.find(to_id)->second;
+            cost_t haversine_cost = math::Haversine(*from_node, *to_node);
+
+            // If haversine cost is more than the supplied cost, use it instead
+            cost = cost > haversine_cost ? cost : haversine_cost;
 
             objects::edge edge = std::make_pair(cost, to_node);
 
