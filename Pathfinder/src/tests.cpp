@@ -32,7 +32,7 @@ namespace pathfinder {
             results.time_elapsed = (stop - start) * 1000.0 / CLOCKS_PER_SEC;
             results.nodes = path.Size();
             results.cost = path.GetCost();
-            results.found = true;
+            results.found = path.IsConnected();
         } catch (std::logic_error& e) {
             results.name = alg->GetName();
             results.found = false;
