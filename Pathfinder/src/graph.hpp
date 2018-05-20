@@ -10,9 +10,13 @@ namespace pathfinder {
         /// \class Graph
         /// \brief Describes a graph.
         class Graph {
+        private:
+            typedef std::unordered_map<id_t, Node*> nmap_t;
+            nmap_t nodemap; ///< Contains all nodes in the graph
+
         public:
             Graph();
-            typedef std::unordered_map<id_t, Node*> nmap_t;
+            ~Graph();
 
             void AddNode(Node& node);
             void AddEdge(id_t src, id_t target, cost_t cost);
@@ -30,8 +34,6 @@ namespace pathfinder {
             void RemoveNode(id_t id);
             void RemoveEdge(id_t src, id_t target);
 
-        private:
-            nmap_t nodemap; ///< Contains all nodes in the graph
         };
     }
 }

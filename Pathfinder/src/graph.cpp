@@ -16,6 +16,12 @@ namespace pathfinder {
                 nodemap() {
         }
 
+        Graph::~Graph() {
+            for(std::pair<id_t, objects::Node*> pair : nodemap) {
+                delete pair.second;
+            }
+        }
+
         /// Adds a node
         /// \param node A reference to the node to add.
         void Graph::AddNode(Node& node) {
@@ -116,8 +122,7 @@ namespace pathfinder {
 
             nodemap.erase(id);
 
-            // Iterates through every Node* in nodemap
-
+            // Make sure all edges are cleaned up
             auto iter = nodemap.begin();
             auto end = nodemap.end();
 
