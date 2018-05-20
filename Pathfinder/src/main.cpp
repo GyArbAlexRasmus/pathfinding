@@ -3,9 +3,10 @@
 #include <iostream>
 #include <random>
 
-#include "tests.hpp"
 #include "astar.hpp"
+#include "dijkstra.hpp"
 #include "fringe.hpp"
+#include "tests.hpp"
 
 namespace po = boost::program_options;
 namespace pf = pathfinder;
@@ -22,6 +23,7 @@ int main(int argc, char* argv[]) {
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
             ("astar,a", "enable testing of A*")
+            ("dijkstra,d", "enable testing of Dijkstra's algorithm")
             ("fringe,f", "enable testing of Fringe Search")
             ("dfs,d", "enable testing of DFS")
             ("bfs,b", "enable testing of BFS")
@@ -67,6 +69,13 @@ int main(int argc, char* argv[]) {
         algs.push_back(astar);
     }
 
+    if (vm.count("dijkstra")) {
+        pf::algorithms::Algorithm* dijkstra = new
+                pf::algorithms::Dijkstra(pf::Tests::graph);
+
+        algs.push_back(dijkstra);
+    }
+  
     if (vm.count("fringe")) {
         pf::algorithms::Algorithm* fringe = new
                 pf::algorithms::FringeSearch(pf::Tests::graph);

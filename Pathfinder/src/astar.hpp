@@ -3,6 +3,10 @@
 
 #include <queue>
 
+#include "algorithm.hpp"
+#include "graph.hpp"
+#include "node.hpp"
+
 namespace pathfinder {
     namespace algorithms {
         class AStar : public Algorithm {
@@ -58,9 +62,12 @@ namespace pathfinder {
             objects::cost_t GetCostTo(objects::id_t target);
             bool IsInClosedSet(objects::id_t);
             bool IsInOpenSet(objects::id_t);
-            objects::cost_t Heuristic(objects::id_t src, objects::id_t target);
-            objects::Path ReconstructPath(objects::id_t src, objects::id_t target);
+            objects::Path ReconstructPath(objects::id_t src,
+                                          objects::id_t target);
 
+        protected:
+            virtual objects::cost_t Heuristic(objects::id_t src,
+                                              objects::id_t target);
         public:
             AStar(objects::Graph* g);
 
