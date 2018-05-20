@@ -1,6 +1,8 @@
 #include <algorithm>
 #include <list>
 #include <cmath>
+#include <assert.h>
+#include <climits>
 
 #include "fringe.hpp"
 #include "fringelist.hpp"
@@ -92,7 +94,7 @@ namespace pathfinder {
 
         FringeSearch::FringeSearch(Graph* g) : Algorithm(g) { }
 
-        void FringeSearch::Iterate(int iteration, cost_t fLimit, cost_t &fMin,
+        void FringeSearch::Iterate(uint64_t iteration, cost_t fLimit, cost_t &fMin,
                                    id_t target) {
             fringe.StartIteration();
             while(true) {
@@ -143,16 +145,17 @@ namespace pathfinder {
         Path FringeSearch::FindWay(id_t src, id_t target) {
             Init();
 
-            int iteration = 1;
+            uint64_t iteration = 1;
             // The maximum cost for the current iteration
             cost_t fLimit = Heuristic(src, target);
 
             fringe.InsertNode(src);
             AddCache(src, 0, 0, NO_NODE);
-            while(!HasCache(target)) { // AND fringe not empty
+            while(!HasCache(target)) {
                 cost_t fMin = INFINITY;
                 Iterate(iteration, fLimit, fMin, target);
                 fLimit = fMin;
+                assert(iteration != UINT64_MAX);
                 iteration++;
             }
 

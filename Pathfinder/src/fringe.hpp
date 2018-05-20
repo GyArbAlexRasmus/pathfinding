@@ -28,7 +28,7 @@ namespace pathfinder {
             void GetFromCache(id_t id, cost_t& g, id_t& parent);
             bool HasCache(id_t id);
             void Init();
-            void Iterate(int iteration, cost_t fLimit, cost_t& fMin,
+            void Iterate(uint64_t iteration, cost_t fLimit, cost_t& fMin,
                          id_t target);
             Path ReconstructPath(id_t src, id_t target);
         protected:

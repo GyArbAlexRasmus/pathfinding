@@ -38,6 +38,7 @@ namespace pathfinder {
             isInList[nodeId] = true;
 
             ListMember& newNode = GetNode(nodeId);
+            newNode.id = id;
 
             if(head != NO_NODE) {
                 ListMember& current = GetNode(currentNode);
@@ -49,6 +50,10 @@ namespace pathfinder {
                 }
 
                 current.next = nodeId;
+            } else {
+                head = nodeId;
+                newNode.previous = NO_NODE;
+                newNode.next = NO_NODE;
             }
         }
 
@@ -82,13 +87,13 @@ namespace pathfinder {
             uint64_t next = node.next;
 
             if(previous != NO_NODE) {
-                GetNode(id).next = next;
+                GetNode(previous).next = next;
             } else {
                 head = next;
             }
 
             if(next != NO_NODE) {
-                GetNode(id).previous = previous;
+                GetNode(next).previous = previous;
             }
 
             isInList[id] = false;
