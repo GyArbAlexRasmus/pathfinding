@@ -5,6 +5,7 @@
 
 #include "tests.hpp"
 #include "astar.hpp"
+#include "fringe.hpp"
 
 namespace po = boost::program_options;
 namespace pf = pathfinder;
@@ -21,6 +22,7 @@ int main(int argc, char* argv[]) {
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
             ("astar,a", "enable testing of A*")
+            ("fringe,f", "enable testing of Fringe Search")
             ("dfs,d", "enable testing of DFS")
             ("bfs,b", "enable testing of BFS")
             ("dijkstra,D", "enable testing of Dijkstra's algorithm")
@@ -63,6 +65,13 @@ int main(int argc, char* argv[]) {
                 pf::algorithms::AStar(pf::Tests::graph);
 
         algs.push_back(astar);
+    }
+
+    if (vm.count("fringe")) {
+        pf::algorithms::Algorithm* fringe = new
+                pf::algorithms::FringeSearch(pf::Tests::graph);
+
+        algs.push_back(fringe);
     }
 
     // TODO implement testing for argument-specified nodes
