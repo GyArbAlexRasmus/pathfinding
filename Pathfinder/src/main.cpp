@@ -25,9 +25,6 @@ int main(int argc, char* argv[]) {
             ("astar,a", "enable testing of A*")
             ("dijkstra,d", "enable testing of Dijkstra's algorithm")
             ("fringe,f", "enable testing of Fringe Search")
-            ("dfs,d", "enable testing of DFS")
-            ("bfs,b", "enable testing of BFS")
-            ("dijkstra,D", "enable testing of Dijkstra's algorithm")
             ("path,p", po::value<std::string>(&path), "path in which OSM data is stored")
         ;
 
