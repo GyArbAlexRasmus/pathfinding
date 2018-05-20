@@ -22,25 +22,21 @@ namespace pathfinder {
 
             class ListMember {
             public:
-                id_t id;
-                uint64_t next, previous;
+                id_t next, previous;
             };
 
-            uint64_t currentNode;
-            uint64_t head;
-            uint64_t nodeCount;
-            uint64_t internalCount;
+            id_t currentNode;
+            id_t head;
 
             std::vector<bool> isInList;
             std::vector<ListMember> nodes;
-            std::map<id_t, uint64_t> translationTable;
 
-            ListMember& GetNode(uint64_t id) {
+            ListMember& GetNode(id_t id) {
+                assert(id < nodes.size());
                 return nodes[id];
             }
 
-            uint64_t ExternalToInternalID(id_t id);
-            void RemoveNode(uint64_t id);
+            void RemoveNode(id_t id);
         };
     }
 }

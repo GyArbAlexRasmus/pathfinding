@@ -45,6 +45,7 @@ namespace pathfinder {
                 
                 delete cur_e; // prevent mem leaks
             }
+            translationTable.clear();
         }
         
         IOEdge* Reader::ReadEdge() {
@@ -56,13 +57,13 @@ namespace pathfinder {
                 return nullptr;
             if (vec.size() < 7) 
                 return nullptr;
-            
-            edge->src_id         = std::stoull(vec[1]);
-            edge->target_id      = std::stoull(vec[2]);
+
+            edge->src_id         = translationTable[std::stoull(vec[1])];
+            edge->target_id      = translationTable[std::stoull(vec[2])];
             edge->cost           = std::stod(vec[3]);
             edge->accessible_fwd = std::stoi(vec[5]) > 0;
             edge->accessible_bwd = std::stoi(vec[6]) > 0;
-            
+
             return edge;
         }
         
@@ -75,10 +76,12 @@ namespace pathfinder {
                 return nullptr;
             if (vec.size() != 3) 
                 return nullptr;
-            
-            node->id  = std::stoull(vec[0]);
-            node->lat = std::stod(vec[1]);
-            node->lon = std::stod(vec[2]);
+
+
+            translationTable[std::stoull(vec[0])] = currentNode;
+            node->id                              = currentNode++;
+            node->lat                             = std::stod(vec[1]);
+            node->lon                             = std::stod(vec[2]);
             
             return node;
         }

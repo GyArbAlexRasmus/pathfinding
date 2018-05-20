@@ -19,8 +19,7 @@ namespace pathfinder {
             };
             FringeList fringe;
             std::vector<CacheEntry> cache;
-            std::map<id_t, uint64_t> cacheTable;
-            uint64_t currentCacheEntry = 1;
+            std::vector<bool> hasCache;
 
             void AddCache(id_t id, cost_t g, uint64_t iter, id_t parent);
             bool CheckCache(id_t id, cost_t g, uint64_t iter);

@@ -22,6 +22,7 @@ namespace pathfinder {
             entry.g = g;
             entry.iteration = iter;
             entry.parent = parent;
+            hasCache[id] = true;
         }
 
         bool FringeSearch::CheckCache(id_t id, cost_t g, uint64_t iter) {
@@ -40,16 +41,7 @@ namespace pathfinder {
         }
 
         FringeSearch::CacheEntry& FringeSearch::GetFromCache(id_t id) {
-            auto i = cacheTable.find(id);
-            uint64_t cacheId;
-            if(i == cacheTable.end()) {
-                cacheId = currentCacheEntry++;
-                cacheTable[id] = cacheId;
-            } else {
-                cacheId = i->second;
-            }
-
-            return cache[cacheId];
+            return cache[id];
         }
 
         void FringeSearch::GetFromCache(id_t id, cost_t& g, id_t& parent) {
@@ -60,14 +52,14 @@ namespace pathfinder {
         }
 
         bool FringeSearch::HasCache(id_t id) {
-            auto iter = cacheTable.find(id);
-            return iter != cacheTable.end();
+            return hasCache[id];
         }
 
         void FringeSearch::Init() {
             fringe.Init(graph->CountNodes());
             cache.resize(graph->CountNodes());
-            cacheTable.clear();
+            hasCache.resize(graph->CountNodes());
+            hasCache.clear();
         }
 
         Path FringeSearch::ReconstructPath(id_t src, id_t target) {
@@ -94,8 +86,8 @@ namespace pathfinder {
 
         FringeSearch::FringeSearch(Graph* g) : Algorithm(g) { }
 
-        void FringeSearch::Iterate(uint64_t iteration, cost_t fLimit, cost_t &fMin,
-                                   id_t target) {
+        void FringeSearch::Iterate(uint64_t iteration, cost_t fLimit,
+                                   cost_t &fMin, id_t target) {
             fringe.StartIteration();
             while(true) {
                 id_t n_id = fringe.GetCurrentNode();
