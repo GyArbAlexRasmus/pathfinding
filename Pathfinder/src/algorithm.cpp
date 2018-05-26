@@ -2,7 +2,9 @@
 
 namespace pathfinder {
     namespace algorithms {
-        Algorithm::Algorithm(objects::Graph* g) {
+        using namespace objects;
+        
+        Algorithm::Algorithm(Graph* g) {
             graph = g;
         }
     }

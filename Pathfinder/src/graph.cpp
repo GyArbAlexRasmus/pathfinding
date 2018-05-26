@@ -10,6 +10,7 @@
 
 namespace pathfinder {
     namespace objects {
+        using namespace objects;
 
         /// Constructs a graph.
         Graph::Graph() :
@@ -49,7 +50,7 @@ namespace pathfinder {
             // If haversine cost is more than the supplied cost, use it instead
             cost = cost > haversine_cost ? cost : haversine_cost;
 
-            objects::edge edge = std::make_pair(cost, to_node);
+            edge edge = std::make_pair(cost, to_node);
 
             from_node->adjacent.push_back(edge);
         }

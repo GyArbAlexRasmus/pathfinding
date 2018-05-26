@@ -9,10 +9,12 @@
 
 namespace pathfinder {
     namespace algorithms {
+        using namespace objects;
+        
         class AStar : public Algorithm {
         private:
             struct CustomPrioQueue {
-                typedef std::pair<objects::id_t, objects::cost_t> pair;
+                typedef std::pair<id_t, cost_t> pair;
 
                 struct comp {
                     bool operator()(const pair a, const pair b) {
@@ -32,14 +34,14 @@ namespace pathfinder {
                                                     comp>();
                 }
 
-                inline objects::id_t get() {
-                    objects::id_t id = top();
+                inline id_t get() {
+                    id_t id = top();
                     pop();
 
                     return id;
                 }
 
-                inline objects::id_t top() {
+                inline id_t top() {
                     return prioqueue.top().first;
                 }
 
@@ -47,7 +49,7 @@ namespace pathfinder {
                     prioqueue.pop();
                 }
 
-                inline void push(objects::id_t id, objects::cost_t cost) {
+                inline void push(id_t id, cost_t cost) {
                     pair p(id, cost);
                     prioqueue.push(p);
                 }
@@ -60,34 +62,34 @@ namespace pathfinder {
             CustomPrioQueue openSet;
 
             // Contains the node from which a given node is best reached
-            std::vector<objects::id_t> bestReachedFrom;
+            std::vector<id_t> bestReachedFrom;
 
             // The lowest cost to get to a given node from src
-            std::vector<objects::cost_t> costTo;
+            std::vector<cost_t> costTo;
 
             // A function pointer to the heuristic
-            objects::cost_t (*HeuristicFunction)(const objects::Node& node1,
-                                                 const objects::Node& node2);
+            cost_t (*HeuristicFunction)(const Node& node1,
+                                        const Node& node2);
 
-            objects::cost_t GetCostTo(objects::id_t target);
-            bool IsInClosedSet(objects::id_t);
-            bool IsInOpenSet(objects::id_t);
-            objects::Path ReconstructPath(objects::id_t src,
-                                          objects::id_t target);
+            cost_t GetCostTo(id_t target);
+            bool IsInClosedSet(id_t);
+            bool IsInOpenSet(id_t);
+            Path ReconstructPath(id_t src,
+                                 id_t target);
             void Reset();
         protected:
 
-            virtual objects::cost_t Heuristic(objects::id_t src,
-                                              objects::id_t target);
+            virtual cost_t Heuristic(id_t src,
+                                     id_t target);
         public:
-            AStar(objects::Graph* g);
-            AStar(objects::Graph* g,
-                  objects::cost_t (*heuristic)(const objects::Node&,
-                                               const objects::Node&));
+            AStar(Graph* g);
+            AStar(Graph* g,
+                  cost_t (*heuristic)(const Node&,
+                                      const Node&));
 
             std::string GetName();
-            objects::Path FindWay(objects::id_t src,
-                                  objects::id_t target);
+            Path FindWay(id_t src,
+                         id_t target);
         };
     }
 }

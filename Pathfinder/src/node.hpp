@@ -17,7 +17,7 @@ namespace pathfinder {
         /// \brief A node.
         struct Node {
             std::vector<edge> adjacent; ///< Contains all edges connected to the node
-            objects::id_t id; ///< The node's ID
+            id_t id; ///< The node's ID
             double lat; ///< Node location latitude
             double lon; ///< Node location longitude
         };

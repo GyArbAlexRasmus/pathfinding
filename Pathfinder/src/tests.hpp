@@ -9,6 +9,8 @@
 #include "node.hpp"
 
 namespace pathfinder {
+    using namespace objects;
+    
     class Tests {
     public:
         /// \struct TestResults
@@ -17,15 +19,15 @@ namespace pathfinder {
             std::string name; ///< Algorithm name
             uint64_t time_elapsed; ///< Time elapsed while finding path
             size_t nodes; ///< number of nodes in path
-            objects::cost_t cost; ///< Total distance for path
+            cost_t cost; ///< Total distance for path
             bool found; ///< Whether the algorithm found a path
         };
         
-        static objects::Graph* graph; ///< Contains the map data.
+        static Graph* graph; ///< Contains the map data.
 
         static TestResults RunTests(algorithms::Algorithm* alg,
-                                    objects::id_t src,
-                                    objects::id_t target);
+                                    id_t src,
+                                    id_t target);
 
         static void PrintDiagnostics();
         static void PrintResults(TestResults results);

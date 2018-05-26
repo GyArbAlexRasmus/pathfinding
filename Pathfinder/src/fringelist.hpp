@@ -6,6 +6,7 @@
 namespace pathfinder {
     namespace algorithms {
         using namespace objects;
+
         class FringeList {
         public:
             FringeList();

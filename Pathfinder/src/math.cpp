@@ -4,8 +4,10 @@
 
 namespace pathfinder {
     namespace math {
-        double Euclidean(const objects::Node& node1, const objects::Node& node2) {
-            return Haversine(node1.lat, node1.lon, node2.lat, node2.lon);
+        using namespace objects;
+        
+        double Euclidean(const Node& node1, const Node& node2) {
+            return Euclidean(node1.lat, node1.lon, node2.lat, node2.lon);
         }
 
         double Euclidean(double lat1, double lon1, double lat2, double lon2) {
@@ -27,7 +29,7 @@ namespace pathfinder {
         /// \param node1 The first node
         /// \param node2 The second node
         /// \return The distance between the two nodes
-        double Haversine(const objects::Node& node1, const objects::Node& node2) {
+        double Haversine(const Node& node1, const Node& node2) {
             return Haversine(node1.lat, node1.lon, node2.lat, node2.lon);
         }
 

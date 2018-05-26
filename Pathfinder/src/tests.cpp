@@ -8,16 +8,17 @@
 #include "tests.hpp"
 
 namespace pathfinder {
+    using namespace objects;
     
-    objects::Graph* Tests::graph;
+    Graph* Tests::graph;
 
     /// Tests a given algorithm
     /// \param alg The algorithm to test
     /// \return A TestResults struct containing the results of the test, or
     /// null if data was not initialized.
     Tests::TestResults Tests::RunTests(algorithms::Algorithm* alg,
-                                       objects::id_t src,
-                                       objects::id_t target) {
+                                       id_t src,
+                                       id_t target) {
 
         TestResults results = pathfinder::Tests::TestResults();
         try {
@@ -67,7 +68,7 @@ namespace pathfinder {
     /// Initializes data from a .osm.pbf file
     /// \param path The path to the file containing the data
     void Tests::Initialize(std::string path) {
-        Tests::graph = new objects::Graph();
+        Tests::graph = new Graph();
         fileio::Reader reader(Tests::graph,
                               path + "/nodes.csv",
                               path + "/edges.csv");

@@ -6,6 +6,8 @@
 
 namespace pathfinder {
     namespace objects {
+        using namespace objects;
+        
         /// \param graph A pointer to the \c Graph on which to build the path
         Path::Path(Graph* graph) :
                 nodes() {
@@ -26,8 +28,8 @@ namespace pathfinder {
 
         /// Gets the total cost of the path
         /// \return The total cost of the path
-        objects::cost_t Path::GetCost() {
-            objects::cost_t cost = 0;
+        cost_t Path::GetCost() {
+            cost_t cost = 0;
 
             for(unsigned int i = 0; i < Size() - 1; i++) {
                 cost_t newCost = graph->GetCost(nodes[i], nodes[i + 1]);
@@ -67,7 +69,7 @@ namespace pathfinder {
 
         /// Gets the top node ID
         /// \return The ID of the top node
-        objects::id_t Path::Top() {
+        id_t Path::Top() {
             return nodes[nodes.size() - 1];
         }
 

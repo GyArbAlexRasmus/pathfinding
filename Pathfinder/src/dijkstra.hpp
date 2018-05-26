@@ -5,12 +5,14 @@
 
 namespace pathfinder {
     namespace algorithms {
+        using namespace objects;
+        
         class Dijkstra : public AStar {
         protected:
-            objects::cost_t Heuristic(objects::id_t src,
-                                      objects::id_t target);
+            cost_t Heuristic(id_t src,
+                             id_t target);
         public:
-            Dijkstra(objects::Graph* g);
+            Dijkstra(Graph* g);
 
             std::string GetName();
         };

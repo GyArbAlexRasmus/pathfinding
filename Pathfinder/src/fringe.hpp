@@ -10,6 +10,7 @@
 namespace pathfinder {
     namespace algorithms {
         using namespace objects;
+
         class FringeSearch : public Algorithm {
         private:
             struct CacheEntry {

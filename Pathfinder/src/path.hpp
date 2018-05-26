@@ -5,6 +5,8 @@
 
 namespace pathfinder {
     namespace objects {
+        using namespace objects;
+
         /// \class Path
         /// \brief Describes a path.
         struct Path {

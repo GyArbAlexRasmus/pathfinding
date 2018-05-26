@@ -7,6 +7,8 @@
 
 namespace pathfinder {
     namespace objects {
+        using namespace objects;
+
         /// \class Graph
         /// \brief Describes a graph.
         class Graph {

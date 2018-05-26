@@ -7,32 +7,33 @@
 
 namespace pathfinder {
     namespace algorithms {
+        using namespace objects;
 
-        objects::cost_t AStar::Heuristic(objects::id_t src,
-                                         objects::id_t target) {
+        cost_t AStar::Heuristic(id_t src,
+                                id_t target) {
             return HeuristicFunction(*(graph->GetNode(src)),
                                      *(graph->GetNode(target)));
         }
 
-        inline objects::cost_t AStar::GetCostTo(objects::id_t target) {
+        inline cost_t AStar::GetCostTo(id_t target) {
             return costTo[target];
         }
 
-        bool AStar::IsInClosedSet(objects::id_t id) {
+        bool AStar::IsInClosedSet(id_t id) {
             return closedSet[id];
         }
 
-        inline bool AStar::IsInOpenSet(objects::id_t id) {
+        inline bool AStar::IsInOpenSet(id_t id) {
             return GetCostTo(id) != INFINITY;
         }
 
-        objects::Path AStar::ReconstructPath(objects::id_t src,
-                                             objects::id_t target) {
-            objects::Path path = objects::Path(graph);
-            std::vector<objects::id_t> nodes;
+        Path AStar::ReconstructPath(id_t src,
+                                    id_t target) {
+            Path path = Path(graph);
+            std::vector<id_t> nodes;
 
             // Build nodes vector
-            objects::id_t current = target;
+            id_t current = target;
             do {
                 nodes.push_back(current);
                 current = bestReachedFrom[current];
@@ -42,7 +43,7 @@ namespace pathfinder {
 
             std::reverse(nodes.begin(), nodes.end());
 
-            for(objects::id_t node : nodes) {
+            for(id_t node : nodes) {
                 path.Push(node);
             }
 
@@ -68,8 +69,8 @@ namespace pathfinder {
             return "A*";
         }
 
-        objects::Path AStar::FindWay(objects::id_t src,
-                                     objects::id_t target) {
+        Path AStar::FindWay(id_t src,
+                            id_t target) {
             Reset();
             // Initially, src is the only discovered node.
             openSet.push(src, 0);
@@ -79,7 +80,7 @@ namespace pathfinder {
 
             while(!openSet.empty()) {
                 // Get the top node
-                objects::id_t current = openSet.get();
+                id_t current = openSet.get();
 
                 if(current == target)
                     return ReconstructPath(src, target);
@@ -88,8 +89,8 @@ namespace pathfinder {
                 closedSet[current] = true;
 
                 // For every neighbor of current node
-                for(objects::edge edge : graph->GetNode(current)->adjacent) {
-                    objects::id_t neighbor = edge.second->id;
+                for(edge edge : graph->GetNode(current)->adjacent) {
+                    id_t neighbor = edge.second->id;
                     if(IsInClosedSet(neighbor))
                         continue; // Already evaluated the current edge.
 
@@ -98,7 +99,7 @@ namespace pathfinder {
                     // If we found a new node or new best path, save it
                     if(!IsInOpenSet(neighbor) ||
                        tentative_cost < costTo[neighbor]) {
-                        objects::cost_t costFrom = tentative_cost +
+                        cost_t costFrom = tentative_cost +
                                 Heuristic(neighbor, target);
 
                         costTo[neighbor] = tentative_cost;
@@ -111,14 +112,14 @@ namespace pathfinder {
             throw std::logic_error("No path found");
         }
 
-        AStar::AStar(objects::Graph* g) : Algorithm(g) {
+        AStar::AStar(Graph* g) : Algorithm(g) {
             HeuristicFunction = math::Haversine;
         }
 
 
-        AStar::AStar(objects::Graph* g,
-                     objects::cost_t (*heuristic)(const objects::Node&,
-                                                  const objects::Node&))
+        AStar::AStar(Graph* g,
+                     cost_t (*heuristic)(const Node&,
+                                         const Node&))
                      : Algorithm(g) {
             HeuristicFunction = heuristic;
         }
