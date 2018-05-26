@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "fileio.hpp"
+#include "math.hpp"
 
 namespace pathfinder {
     namespace fileio {
@@ -78,10 +79,11 @@ namespace pathfinder {
                 return nullptr;
 
 
-            translationTable[std::stoull(vec[0])] = currentNode;
-            node->id                              = currentNode++;
-            node->lat                             = std::stod(vec[1]);
-            node->lon                             = std::stod(vec[2]);
+            translationTable[std::stoull(vec[0])]
+                      = currentNode;
+            node->id  = currentNode++;
+            node->lat = math::DegToRad(std::stod(vec[1]));
+            node->lon = math::DegToRad(std::stod(vec[2]));
             
             return node;
         }

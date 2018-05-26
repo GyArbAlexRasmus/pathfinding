@@ -11,18 +11,10 @@ namespace pathfinder {
         }
 
         double Euclidean(double lat1, double lon1, double lat2, double lon2) {
-            lat1 = DegToRad(lat1);
-            lat2 = DegToRad(lat2);
-            lon1 = DegToRad(lon1);
-            lon2 = DegToRad(lon2);
+            double dx = lat1 - lat2;
+            double dy = (lon1 - lon2) * cos(lat2);
 
-            double dx = (cos(lat2) * cos(lon2)) - (cos(lat1) * cos(lon1));
-            double dy = (cos(lat2) * sin(lon2)) - (cos(lat1) * sin(lon1));
-            double dz = sin(lat2) - sin(lat1);
-
-            double C = sqrt((dx*dx) + (dy*dy) + (dz*dz));
-
-            return R_EARTH * 2 * asin(C/2);
+            return R_EARTH * sqrt(dx*dx + dy*dy);
         }
 
         /// Calculates the distance between two nodes
@@ -34,17 +26,14 @@ namespace pathfinder {
         }
 
         /// Calculates the distance between two sets of coordinates on the earth
-        /// \param lat1 Coordinate 1's longitude, in degrees
-        /// \param lon1 Coordinate 1's latitude, in degrees
-        /// \param lat2 Coordinate 2's longitude, in degrees
-        /// \param lon2 Coordinate 2's latitude, in degrees
+        /// \param lat1 Coordinate 1's longitude, in radians
+        /// \param lon1 Coordinate 1's latitude, in radians
+        /// \param lat2 Coordinate 2's longitude, in radians
+        /// \param lon2 Coordinate 2's latitude, in radians
         /// \return The distance between the two coordinates
         double Haversine(double lat1, double lon1, double lat2, double lon2) {
-            lat1 = DegToRad(lat1);
-            lat2 = DegToRad(lat2);
-
             double deltaLat = lat2 - lat1;
-            double deltaLon = DegToRad(lon2 - lon1);
+            double deltaLon = lon2 - lon1;
 
             double a = (sin(deltaLat / 2) * sin(deltaLat / 2)) +
                        (cos(lat1) * cos(lat2) *
