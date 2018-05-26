@@ -17,16 +17,20 @@ namespace pathfinder {
         }
 
         Graph::~Graph() {
-            for(std::pair<id_t, objects::Node*> pair : nodemap) {
-                delete pair.second;
+            for(Node* node : nodemap) {
+                delete node;
             }
         }
 
         /// Adds a node
         /// \param node A reference to the node to add.
         void Graph::AddNode(Node& node) {
+            if(nodemap.size() <= node.id) {
+                nodemap.resize(node.id + 1);
+            }
+
             // If nodemap does not contain a node with the same id
-            if (nodemap.find(node.id) == nodemap.end()) {
+            if (nodemap[node.id] == nullptr) {
                 nodemap[node.id] = &node;
             } else {
                 std::cout << "Node with ID " << node.id << " already exists!";
@@ -38,8 +42,8 @@ namespace pathfinder {
         /// \param to_id Target node ID
         /// \param cost The cost of the edge
         void Graph::AddEdge(id_t from_id, id_t to_id, cost_t cost) {
-            Node* from_node = nodemap.find(from_id)->second;
-            Node* to_node = nodemap.find(to_id)->second;
+            Node* from_node = GetNode(from_id);
+            Node* to_node = GetNode(to_id);
             cost_t haversine_cost = math::Haversine(*from_node, *to_node);
 
             // If haversine cost is more than the supplied cost, use it instead
@@ -54,8 +58,8 @@ namespace pathfinder {
         /// \return The number of edges in the graph.
         uint64_t Graph::CountEdges() {
             uint64_t count = 0;
-            for (std::pair<id_t, objects::Node*> pair : nodemap) {
-                count += pair.second->adjacent.size();
+            for (Node* node : nodemap) {
+                count += node->adjacent.size();
             }
 
             return count;
@@ -72,8 +76,7 @@ namespace pathfinder {
         /// \return A pointer to the Node with the given ID, or NULL if there
         /// is no such node.
         Node* Graph::GetNode(id_t id) {
-            auto node_iter = nodemap.find(id);
-            return node_iter != nodemap.end() ? node_iter->second : NULL;
+            return nodemap[id];
         }
 
         /// Gets the cost of the edge between two nodes
@@ -109,31 +112,26 @@ namespace pathfinder {
         /// Gets the ID of a random node in the graph.
         /// \return The ID of a random node in the graph.
         id_t Graph::RandomID() {
-            // It Works™
-            return (*std::next(std::begin(nodemap), rand() % nodemap.size())).first;
+            return rand() % nodemap.size();
         }
 
         /// Removes the node with the given ID.
         /// \param id The ID of the node to remove
         void Graph::RemoveNode(id_t id) {
-            // Return if nodemap does not contain a node with that id
-            if (nodemap.find(id) == nodemap.end())
-                return;
-
-            nodemap.erase(id);
+            nodemap[id] = nullptr;
 
             // Make sure all edges are cleaned up
             auto iter = nodemap.begin();
             auto end = nodemap.end();
 
             for (; iter != end; iter++) {
-                Node* node = iter->second;
+                Node* node = *iter;
                 auto iterAdj = node->adjacent.begin();
                 auto endAdj  = node->adjacent.end();
 
                 // Iterates through every edge for the current node
                 for (; iterAdj != endAdj; iterAdj++) {
-                    if (iter->second->id == id)
+                    if (iterAdj->second->id == id)
                         node->adjacent.erase(iterAdj);
                 }
             }
@@ -144,11 +142,10 @@ namespace pathfinder {
         /// \param target Target node ID
         void Graph::RemoveEdge(id_t src, id_t target) {
             // Return if nodemap does not contain a node with given id
-            if (nodemap.find(src) == nodemap.end() ||
-                nodemap.find(target) == nodemap.end())
+            if (GetNode(src) == nullptr || GetNode(target) == nullptr)
                 return;
 
-            Node* src_n = nodemap.find(src)->second;
+            Node* src_n = GetNode(src);
             auto iter = src_n->adjacent.begin();
             auto end  = src_n->adjacent.end();
 

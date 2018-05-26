@@ -5,7 +5,7 @@
 #include "fringelist.hpp"
 #include "graph.hpp"
 
-#define NO_NODE 0
+#define NO_NODE UINT64_MAX
 
 namespace pathfinder {
     namespace algorithms {
@@ -30,11 +30,16 @@ namespace pathfinder {
             void Iterate(uint64_t iteration, cost_t fLimit, cost_t& fMin,
                          id_t target);
             Path ReconstructPath(id_t src, id_t target);
+
+            cost_t (*HeuristicFunction)(const Node& node1, const Node& node2);
+
+            objects::cost_t Heuristic(id_t src, id_t target);
         protected:
-            cost_t Heuristic(id_t src, id_t target);
 
         public:
             FringeSearch(Graph* g);
+            FringeSearch(Graph* g,
+                         cost_t (*heuristic)(const Node&, const Node&));
             Path FindWay(id_t src, id_t target);
             std::string GetName();
         };

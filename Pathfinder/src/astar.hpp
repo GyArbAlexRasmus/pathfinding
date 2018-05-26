@@ -26,6 +26,12 @@ namespace pathfinder {
                     return prioqueue.empty();
                 }
 
+                void clear()  {
+                    prioqueue = std::priority_queue<pair,
+                                                    std::vector<pair>,
+                                                    comp>();
+                }
+
                 inline objects::id_t get() {
                     objects::id_t id = top();
                     pop();
@@ -48,28 +54,36 @@ namespace pathfinder {
             };
 
             // The nodes which have already been checked
-            std::vector<objects::id_t> closedSet;
+            std::vector<bool> closedSet;
 
             // The set of discovered nodes that have not been checked.
             CustomPrioQueue openSet;
 
             // Contains the node from which a given node is best reached
-            std::map<objects::id_t, objects::id_t> bestReachedFrom;
+            std::vector<objects::id_t> bestReachedFrom;
 
             // The lowest cost to get to a given node from src
-            std::map<objects::id_t, objects::cost_t> costToMap;
+            std::vector<objects::cost_t> costTo;
+
+            // A function pointer to the heuristic
+            objects::cost_t (*HeuristicFunction)(const objects::Node& node1,
+                                                 const objects::Node& node2);
 
             objects::cost_t GetCostTo(objects::id_t target);
             bool IsInClosedSet(objects::id_t);
             bool IsInOpenSet(objects::id_t);
             objects::Path ReconstructPath(objects::id_t src,
                                           objects::id_t target);
-
+            void Reset();
         protected:
+
             virtual objects::cost_t Heuristic(objects::id_t src,
                                               objects::id_t target);
         public:
             AStar(objects::Graph* g);
+            AStar(objects::Graph* g,
+                  objects::cost_t (*heuristic)(const objects::Node&,
+                                               const objects::Node&));
 
             std::string GetName();
             objects::Path FindWay(objects::id_t src,

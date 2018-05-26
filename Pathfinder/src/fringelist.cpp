@@ -3,6 +3,7 @@
 //
 
 #include <assert.h>
+#include <iostream>
 #include "fringe.hpp"
 
 namespace pathfinder {
@@ -13,10 +14,14 @@ namespace pathfinder {
         id_t FringeList::GetCurrentNode() {
             return currentNode;
         }
+
         void FringeList::Init(uint64_t count) {
+            nodes.clear();
             nodes.resize(count);
+
             isInList.clear();
             isInList.resize(count, false);
+
             currentNode = NO_NODE;
             head = NO_NODE;
         }
@@ -46,6 +51,10 @@ namespace pathfinder {
                 newNode.previous = NO_NODE;
                 newNode.next = NO_NODE;
             }
+        }
+
+        bool FringeList::IsEmpty() {
+            return head == NO_NODE;
         }
 
         void FringeList::NextNode() {

@@ -29,9 +29,9 @@ namespace pathfinder {
         private:
             std::ifstream nodefile;
             std::ifstream edgefile;
+            id_t currentNode = 0;
             objects::Graph* graph;
             objects::Node* ReadNode();
-            id_t currentNode = 1;
             IOEdge* ReadEdge();
             std::map<id_t, id_t> translationTable;
             std::vector<std::string> ReadValues(std::ifstream& stream);

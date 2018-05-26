@@ -12,6 +12,7 @@ namespace pathfinder {
             id_t GetCurrentNode();
             void Init(uint64_t count);
             void InsertNode(id_t id);
+            bool IsEmpty();
             void NextNode();
             void RemoveCurrentNode() {
                 RemoveNode(currentNode);

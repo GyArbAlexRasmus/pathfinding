@@ -3,7 +3,7 @@
 namespace pathfinder {
     namespace algorithms {
         objects::cost_t Dijkstra::Heuristic(objects::id_t src,
-                                  objects::id_t target) {
+                                            objects::id_t target) {
             return 0; // Dijkstra's algorithm is a special case of A* where
                       // the heuristic always returns 0
         }

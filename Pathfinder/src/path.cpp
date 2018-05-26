@@ -15,8 +15,7 @@ namespace pathfinder {
         /// Checks if the path is fully connected
         /// \return True if the path is fully connected, otherwise false
         bool Path::IsConnected() {
-            for(int i = 0; i < Size() - 1; i++) {
-
+            for(unsigned int i = 0; i < Size() - 1; i++) {
                 // We found a missing link, return false
                 if(graph->GetCost(nodes[i], nodes[i + 1]) == INFINITY)
                     return false;
@@ -30,7 +29,7 @@ namespace pathfinder {
         objects::cost_t Path::GetCost() {
             objects::cost_t cost = 0;
 
-            for(int i = 0; i < Size() - 1; i++) {
+            for(unsigned int i = 0; i < Size() - 1; i++) {
                 cost_t newCost = graph->GetCost(nodes[i], nodes[i + 1]);
 
                 // We found a missing link

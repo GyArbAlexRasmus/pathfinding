@@ -11,7 +11,7 @@ namespace pathfinder {
         /// \brief Describes a graph.
         class Graph {
         private:
-            typedef std::unordered_map<id_t, Node*> nmap_t;
+            typedef std::vector<Node*> nmap_t;
             nmap_t nodemap; ///< Contains all nodes in the graph
 
         public:

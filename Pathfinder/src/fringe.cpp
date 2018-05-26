@@ -2,10 +2,8 @@
 #include <list>
 #include <cmath>
 #include <assert.h>
-#include <climits>
 
 #include "fringe.hpp"
-#include "fringelist.hpp"
 #include "math.hpp"
 
 namespace pathfinder {
@@ -13,8 +11,8 @@ namespace pathfinder {
         using namespace objects;
         cost_t FringeSearch::Heuristic(id_t src,
                                        id_t target) {
-            return math::Haversine(*graph->GetNode(src),
-                                   *graph->GetNode(target));
+            return HeuristicFunction(*(graph->GetNode(src)),
+                                     *(graph->GetNode(target)));
         }
 
         void FringeSearch::AddCache(id_t id, cost_t g, uint64_t iter, id_t parent) {
@@ -22,6 +20,7 @@ namespace pathfinder {
             entry.g = g;
             entry.iteration = iter;
             entry.parent = parent;
+
             hasCache[id] = true;
         }
 
@@ -56,10 +55,16 @@ namespace pathfinder {
         }
 
         void FringeSearch::Init() {
-            fringe.Init(graph->CountNodes());
-            cache.resize(graph->CountNodes());
-            hasCache.resize(graph->CountNodes());
+
+            uint64_t count = graph->CountNodes();
+
+            fringe.Init(count);
+
+            cache.clear();
+            cache.resize(count);
+
             hasCache.clear();
+            hasCache.resize(count);
         }
 
         Path FringeSearch::ReconstructPath(id_t src, id_t target) {
@@ -85,6 +90,12 @@ namespace pathfinder {
         }
 
         FringeSearch::FringeSearch(Graph* g) : Algorithm(g) { }
+
+        FringeSearch::FringeSearch(Graph* g,
+                                   cost_t (*heuristic)(const Node&, const Node&))
+                : Algorithm(g) {
+            HeuristicFunction = heuristic;
+        }
 
         void FringeSearch::Iterate(uint64_t iteration, cost_t fLimit,
                                    cost_t &fMin, id_t target) {
@@ -149,6 +160,8 @@ namespace pathfinder {
                 fLimit = fMin;
                 assert(iteration != UINT64_MAX);
                 iteration++;
+                if(fringe.IsEmpty())
+                    throw std::logic_error("No path found!");
             }
 
             Path path = ReconstructPath(src, target);

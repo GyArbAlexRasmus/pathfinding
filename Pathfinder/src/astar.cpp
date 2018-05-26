@@ -8,31 +8,26 @@
 namespace pathfinder {
     namespace algorithms {
 
-        objects::cost_t AStar::Heuristic(objects::id_t src, objects::id_t target) {
-            return pathfinder::math::Haversine(*(graph->GetNode(src)),
-                                               *(graph->GetNode(target)));
+        objects::cost_t AStar::Heuristic(objects::id_t src,
+                                         objects::id_t target) {
+            return HeuristicFunction(*(graph->GetNode(src)),
+                                     *(graph->GetNode(target)));
         }
 
         inline objects::cost_t AStar::GetCostTo(objects::id_t target) {
-            return costToMap.find(target) != costToMap.end() ?
-                   costToMap[target] :
-                   INFINITY;
+            return costTo[target];
         }
 
         bool AStar::IsInClosedSet(objects::id_t id) {
-            for(objects::id_t current : closedSet) {
-                if(current == id)
-                    return true;
-            }
-
-            return false;
+            return closedSet[id];
         }
 
         inline bool AStar::IsInOpenSet(objects::id_t id) {
-            return costToMap.find(id) != costToMap.end();
+            return GetCostTo(id) != INFINITY;
         }
 
-        objects::Path AStar::ReconstructPath(objects::id_t src, objects::id_t target) {
+        objects::Path AStar::ReconstructPath(objects::id_t src,
+                                             objects::id_t target) {
             objects::Path path = objects::Path(graph);
             std::vector<objects::id_t> nodes;
 
@@ -54,18 +49,33 @@ namespace pathfinder {
             return path;
         }
 
+        void AStar::Reset() {
+            uint64_t count = graph->CountNodes();
+
+            closedSet.clear();
+            closedSet.resize(count);
+
+            openSet.clear();
+
+            bestReachedFrom.clear();
+            bestReachedFrom.resize(count);
+
+            costTo.clear();
+            costTo.resize(count, INFINITY);
+        }
+
         std::string AStar::GetName() {
             return "A*";
         }
 
         objects::Path AStar::FindWay(objects::id_t src,
                                      objects::id_t target) {
-
+            Reset();
             // Initially, src is the only discovered node.
             openSet.push(src, 0);
 
             // Cost to src is 0.
-            costToMap[src] = 0;
+            costTo[src] = 0;
 
             while(!openSet.empty()) {
                 // Get the top node
@@ -75,7 +85,7 @@ namespace pathfinder {
                     return ReconstructPath(src, target);
 
                 // Add current node to closed set
-                closedSet.push_back(current);
+                closedSet[current] = true;
 
                 // For every neighbor of current node
                 for(objects::edge edge : graph->GetNode(current)->adjacent) {
@@ -87,11 +97,11 @@ namespace pathfinder {
 
                     // If we found a new node or new best path, save it
                     if(!IsInOpenSet(neighbor) ||
-                       tentative_cost < costToMap[neighbor]) {
+                       tentative_cost < costTo[neighbor]) {
                         objects::cost_t costFrom = tentative_cost +
                                 Heuristic(neighbor, target);
 
-                        costToMap[neighbor] = tentative_cost;
+                        costTo[neighbor] = tentative_cost;
                         openSet.push(neighbor, costFrom);
                         bestReachedFrom[neighbor] = current;
                     }
@@ -101,6 +111,16 @@ namespace pathfinder {
             throw std::logic_error("No path found");
         }
 
-        AStar::AStar(objects::Graph* g) : Algorithm(g) { }
+        AStar::AStar(objects::Graph* g) : Algorithm(g) {
+            HeuristicFunction = math::Haversine;
+        }
+
+
+        AStar::AStar(objects::Graph* g,
+                     objects::cost_t (*heuristic)(const objects::Node&,
+                                                  const objects::Node&))
+                     : Algorithm(g) {
+            HeuristicFunction = heuristic;
+        }
     }
 }
