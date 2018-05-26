@@ -14,6 +14,7 @@ include_directories(${Boost_INCLUDE_DIRS})
 
 #Define version for use in program
 add_definitions(-DPATHFINDER_VERSION="${Pathfinder_VERSION}")
+add_definitions(-DNDEBUG)
 
 #Get source files
 file(GLOB SOURCES src/*.cpp)
