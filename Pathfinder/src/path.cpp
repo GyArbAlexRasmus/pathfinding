@@ -14,16 +14,8 @@ namespace pathfinder {
             this->graph = graph;
         }
 
-        /// Checks if the path is fully connected
-        /// \return True if the path is fully connected, otherwise false
-        bool Path::IsConnected() {
-            for(unsigned int i = 0; i < Size() - 1; i++) {
-                // We found a missing link, return false
-                if(graph->GetCost(nodes[i], nodes[i + 1]) == INFINITY)
-                    return false;
-            }
-
-            return true;
+        id_t Path::FirstNode() {
+            return nodes[0];
         }
 
         /// Gets the total cost of the path
@@ -31,7 +23,7 @@ namespace pathfinder {
         cost_t Path::GetCost() {
             cost_t cost = 0;
 
-            for(unsigned int i = 0; i < Size() - 1; i++) {
+            for(unsigned int i = 0; i < NodeCount() - 1; i++) {
                 cost_t newCost = graph->GetCost(nodes[i], nodes[i + 1]);
 
                 // We found a missing link
@@ -42,6 +34,24 @@ namespace pathfinder {
             }
 
             return cost;
+        }
+
+        /// Checks if the path is fully connected
+        /// \return True if the path is fully connected, otherwise false
+        bool Path::IsConnected() {
+            for(unsigned int i = 0; i < NodeCount() - 1; i++) {
+                // We found a missing link, return false
+                if(graph->GetCost(nodes[i], nodes[i + 1]) == INFINITY)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// Gets the total number of nodes in the path
+        /// \return The number of nodes in the path
+        size_t Path::NodeCount() {
+            return nodes.size();
         }
 
         /// Removes the last node from the path
@@ -59,7 +69,7 @@ namespace pathfinder {
             if(!graph->HasNode(id))
                 throw std::logic_error("Path::Push: No node with given ID");
 
-            if (Size() > 0) {
+            if (NodeCount() > 0) {
                 if(graph->GetCost(Top(), id) == INFINITY)
                     throw std::logic_error("Path::Push: No edge between nodes");
             }
@@ -71,12 +81,6 @@ namespace pathfinder {
         /// \return The ID of the top node
         id_t Path::Top() {
             return nodes[nodes.size() - 1];
-        }
-
-        /// Gets the total number of nodes in the path
-        /// \return The number of nodes in the path
-        size_t Path::Size() {
-            return nodes.size();
         }
     }
 }

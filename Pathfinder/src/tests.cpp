@@ -2,6 +2,7 @@
 #include <iostream>
 #include <random>
 #include <utility>
+#include <assert.h>
 
 #include "algorithm.hpp"
 #include "fileio.hpp"
@@ -16,30 +17,19 @@ namespace pathfinder {
     /// \param alg The algorithm to test
     /// \return A TestResults struct containing the results of the test, or
     /// null if data was not initialized.
-    Tests::TestResults Tests::RunTests(algorithms::Algorithm* alg,
-                                       id_t src,
-                                       id_t target) {
-
-        TestResults results = pathfinder::Tests::TestResults();
+    void Tests::RunTests(algorithms::Algorithm* alg, id_t src, id_t target) {
         try {
             printf("Testing algorithm \"%s\" from node %lu to node %lu\n",
                    alg->GetName().c_str(), src, target);
 
-            clock_t start = std::clock();
             auto path = alg->FindWay(src, target);
-            clock_t stop = std::clock();
 
-            results.name = alg->GetName();
-            results.time_elapsed = (stop - start) * 1000.0 / CLOCKS_PER_SEC;
-            results.nodes = path.Size();
-            results.cost = path.GetCost();
-            results.found = path.IsConnected();
+            assert(path.IsConnected());
+            assert(path.Top() == target);
+            assert(path.FirstNode() == src);
         } catch (std::logic_error& e) {
-            results.name = alg->GetName();
-            results.found = false;
+            std::cout << "No path found.\n";
         }
-
-        return results;
     }
     
     /// Prints some diagnostics data, including the number of loaded nodes and
@@ -48,21 +38,6 @@ namespace pathfinder {
         
         printf("Nodes in graph: %lu\n", graph->CountNodes());
         printf("Edges in graph: %lu\n", graph->CountEdges());
-    }
-    
-    ///Prints the results of a test.
-    /// \param results A TestResults struct containing the results of the test
-    void Tests::PrintResults(TestResults results) {
-        if(results.found) {
-            printf("\n\n-------------------- Results --------------------\n");
-            printf("Algorithm: %s\n", results.name.c_str());
-            printf("Time to find path: %lums\n", results.time_elapsed);
-            printf("Nodes: %lu\n", results.nodes);
-            printf("Total cost of path: %f\n", results.cost);
-            printf("-------------------------------------------------");
-        } else {
-            printf("\n\nNo path found for algorithm %s\n", results.name.c_str());
-        }
     }
 
     /// Initializes data from a .osm.pbf file

@@ -1,5 +1,7 @@
 #include <algorithm>
 #include <cmath>
+#include <iostream>
+#include <ctime>
 
 #include "algorithm.hpp"
 #include "astar.hpp"
@@ -11,8 +13,37 @@ namespace pathfinder {
 
         cost_t AStar::Heuristic(id_t src,
                                 id_t target) {
+            hCalls++;
             return HeuristicFunction(*(graph->GetNode(src)),
                                      *(graph->GetNode(target)));
+        }
+
+
+        void AStar::AddStatistics() {
+            collection.AddStatistic("nodes_expanded");
+            collection.AddStatistic("nodes_visited");
+            collection.AddStatistic("iterations");
+            collection.AddStatistic("heuristic_calls");
+            collection.AddStatistic("path_length");
+            collection.AddStatistic("path_nodes");
+            collection.AddStatistic("run_time");
+        }
+
+        Path AStar::FinishSearch(id_t src, id_t target) {
+            clock_t stopTime = std::clock();
+            double run_time = (stopTime - startTime) * 1000.0 / CLOCKS_PER_SEC;
+
+            Path path = ReconstructPath(src, target);
+
+            collection.AddValue("nodes_expanded", nodesExpanded);
+            collection.AddValue("nodes_visited", nodesVisited);
+            collection.AddValue("iterations", iteration);
+            collection.AddValue("heuristic_calls", hCalls);
+            collection.AddValue("path_length", path.GetCost());
+            collection.AddValue("path_nodes", path.NodeCount());
+            collection.AddValue("run_time", run_time);
+
+            return path;
         }
 
         inline cost_t AStar::GetCostTo(id_t target) {
@@ -51,6 +82,10 @@ namespace pathfinder {
         }
 
         void AStar::Reset() {
+            hCalls = 0;
+            iteration = 0;
+            nodesExpanded = 0;
+            nodesVisited = 0;
             uint64_t count = graph->CountNodes();
 
             closedSet.clear();
@@ -65,13 +100,11 @@ namespace pathfinder {
             costTo.resize(count, INFINITY);
         }
 
-        std::string AStar::GetName() {
-            return "A*";
-        }
-
         Path AStar::FindWay(id_t src,
                             id_t target) {
             Reset();
+
+            startTime = std::clock();
             // Initially, src is the only discovered node.
             openSet.push(src, 0);
 
@@ -79,15 +112,21 @@ namespace pathfinder {
             costTo[src] = 0;
 
             while(!openSet.empty()) {
+                iteration++;
                 // Get the top node
                 id_t current = openSet.get();
 
+                nodesVisited++;
+
                 if(current == target) {
-                    return ReconstructPath(src, target);
+                    return FinishSearch(src, target);
                 }
+
+                nodesExpanded++;
 
                 // Add current node to closed set
                 closedSet[current] = true;
+
 
                 // For every neighbor of current node
                 for(edge edge : graph->GetNode(current)->adjacent) {
@@ -114,16 +153,27 @@ namespace pathfinder {
             throw std::logic_error("No path found");
         }
 
-        AStar::AStar(Graph* g) : Algorithm(g) {
+        AStar::AStar(Graph* g, std::string name)
+                : Algorithm(g, name) {
             HeuristicFunction = math::Haversine;
+
+            AddStatistics();
+        }
+
+        AStar::AStar(Graph* g) : Algorithm(g, "A*") {
+            HeuristicFunction = math::Haversine;
+
+            AddStatistics();
         }
 
 
         AStar::AStar(Graph* g,
                      cost_t (*heuristic)(const Node&,
                                          const Node&))
-                     : Algorithm(g) {
+                     : Algorithm(g, "A*") {
             HeuristicFunction = heuristic;
+
+            AddStatistics();
         }
     }
 }

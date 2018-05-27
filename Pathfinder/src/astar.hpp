@@ -67,27 +67,34 @@ namespace pathfinder {
             // The lowest cost to get to a given node from src
             std::vector<cost_t> costTo;
 
+            uint64_t hCalls = 0;
+            uint64_t iteration = 0;
+            uint64_t nodesExpanded = 0;
+            uint64_t nodesVisited = 0;
+            clock_t startTime;
+
             // A function pointer to the heuristic
             cost_t (*HeuristicFunction)(const Node& node1,
                                         const Node& node2);
 
+            void AddStatistics();
+            Path FinishSearch(id_t src, id_t target);
             cost_t GetCostTo(id_t target);
             bool IsInClosedSet(id_t);
             bool IsInOpenSet(id_t);
             Path ReconstructPath(id_t src,
                                  id_t target);
             void Reset();
-        protected:
 
-            virtual cost_t Heuristic(id_t src,
-                                     id_t target);
+        protected:
+            AStar(Graph* g, std::string name);
+            virtual cost_t Heuristic(id_t src, id_t target);
         public:
             AStar(Graph* g);
             AStar(Graph* g,
                   cost_t (*heuristic)(const Node&,
                                       const Node&));
 
-            std::string GetName();
             Path FindWay(id_t src,
                          id_t target);
         };

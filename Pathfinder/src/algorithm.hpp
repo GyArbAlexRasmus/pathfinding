@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "path.hpp"
+#include "statistics.hpp"
 
 namespace pathfinder {
     namespace algorithms {
@@ -15,10 +16,13 @@ namespace pathfinder {
         class Algorithm {
         protected:
             Graph* graph;
+            std::string name;
         public:
-            virtual std::string GetName() = 0;
+            StatisticsCollection collection;
 
-            Algorithm(Graph* g);
+
+            Algorithm(Graph* g, std::string name);
+
 
             /// Find a path between two nodes on a graph
             /// \param src The source node ID
@@ -28,6 +32,8 @@ namespace pathfinder {
             /// \return A Path object describing a path between two nodes
             virtual Path FindWay(id_t src,
                                  id_t target) = 0;
+
+            std::string GetName();
         };
 
 

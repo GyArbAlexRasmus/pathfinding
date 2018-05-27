@@ -1,6 +1,7 @@
 #ifndef STATISTICS
 #define STATISTICS
 
+#include <cmath>
 #include <map>
 #include <vector>
 

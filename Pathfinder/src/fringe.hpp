@@ -22,7 +22,13 @@ namespace pathfinder {
             FringeList fringe;
             std::vector<CacheEntry> cache;
             std::vector<bool> hasCache;
+            cost_t (*heuristicFunction)(const Node& node1, const Node& node2);
             id_t target = NO_NODE;
+
+            uint64_t cacheFetches = 0;
+            uint64_t hCalls = 0;
+            uint64_t nodesExpanded = 0;
+            uint64_t nodesVisited = 0;
 
             void AddCache(id_t id, cost_t g,
                           uint64_t iter, id_t parent);
@@ -30,13 +36,12 @@ namespace pathfinder {
             CacheEntry& GetFromCache(id_t id);
             void GetFromCache(id_t id, cost_t& g, cost_t& h, id_t& parent);
             bool HasCache(id_t id);
+            objects::cost_t Heuristic(id_t src, id_t target);
             void Init();
             void Iterate(uint64_t iteration, cost_t fLimit, cost_t& fMin);
             Path ReconstructPath(id_t src, id_t target);
 
-            cost_t (*HeuristicFunction)(const Node& node1, const Node& node2);
 
-            objects::cost_t Heuristic(id_t src, id_t target);
         protected:
 
         public:

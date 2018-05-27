@@ -2,6 +2,8 @@
 #include <list>
 #include <cmath>
 #include <assert.h>
+#include <iostream>
+#include <ctime>
 
 #include "fringe.hpp"
 #include "math.hpp"
@@ -9,11 +11,6 @@
 namespace pathfinder {
     namespace algorithms {
         using namespace objects;
-        cost_t FringeSearch::Heuristic(id_t src,
-                                       id_t target) {
-            return HeuristicFunction(*(graph->GetNode(src)),
-                                     *(graph->GetNode(target)));
-        }
 
         void FringeSearch::AddCache(id_t id, cost_t g,
                                     uint64_t iter, id_t parent) {
@@ -39,11 +36,13 @@ namespace pathfinder {
                 return true;
             }
 
-            // If the node has the same g, but the cache is outdated, proceed
+            // If the node has the same g, but the cache is outdated,
+            // it should be updated.
             return g == cachedG && iter == entry.iteration;
         }
 
         FringeSearch::CacheEntry& FringeSearch::GetFromCache(id_t id) {
+            cacheFetches++;
             return cache[id];
         }
 
@@ -60,9 +59,21 @@ namespace pathfinder {
             return hasCache[id];
         }
 
+        cost_t FringeSearch::Heuristic(id_t src,
+                                       id_t target) {
+            hCalls++;
+            return heuristicFunction(*(graph->GetNode(src)),
+                                     *(graph->GetNode(target)));
+        }
+
         void FringeSearch::Init() {
 
             uint64_t count = graph->CountNodes();
+
+            cacheFetches = 0;
+            hCalls = 0;
+            nodesExpanded = 0;
+            nodesVisited = 0;
 
             fringe.Init(count);
 
@@ -95,14 +106,30 @@ namespace pathfinder {
             return path;
         }
 
-        FringeSearch::FringeSearch(Graph* g) : Algorithm(g) {
-            HeuristicFunction = math::Haversine;
+        FringeSearch::FringeSearch(Graph* g) : Algorithm(g, "Fringe Search") {
+            heuristicFunction = math::Haversine;
+            collection.AddStatistic("nodes_expanded");
+            collection.AddStatistic("nodes_visited");
+            collection.AddStatistic("iterations");
+            collection.AddStatistic("heuristic_calls");
+            collection.AddStatistic("cache_fetches");
+            collection.AddStatistic("path_length");
+            collection.AddStatistic("path_nodes");
+            collection.AddStatistic("run_time");
         }
 
         FringeSearch::FringeSearch(Graph* g,
                                    cost_t (*heuristic)(const Node&, const Node&))
-                : Algorithm(g) {
-            HeuristicFunction = heuristic;
+                : Algorithm(g, "Fringe Search") {
+            heuristicFunction = heuristic;
+            collection.AddStatistic("nodes_expanded");
+            collection.AddStatistic("nodes_visited");
+            collection.AddStatistic("iterations");
+            collection.AddStatistic("heuristic_calls");
+            collection.AddStatistic("cache_fetches");
+            collection.AddStatistic("path_length");
+            collection.AddStatistic("path_nodes");
+            collection.AddStatistic("run_time");
         }
 
         void FringeSearch::Iterate(uint64_t iteration, cost_t fLimit,
@@ -113,6 +140,8 @@ namespace pathfinder {
                 if(n_id == NO_NODE) {
                     return;
                 }
+
+                nodesVisited++;
 
                 cost_t g, h;
                 id_t parent;
@@ -146,6 +175,7 @@ namespace pathfinder {
 
                     fringe.InsertNode(successorId);
                     AddCache(successorId, successorG, iteration, n_id);
+                    nodesExpanded++;
                 }
 
                 fringe.RemoveCurrentNode(); // Remove n from F
@@ -155,6 +185,9 @@ namespace pathfinder {
 
         Path FringeSearch::FindWay(id_t src, id_t target) {
             Init();
+
+            clock_t start = std::clock();
+
             this->target = target;
 
             uint64_t iteration = 1;
@@ -162,7 +195,7 @@ namespace pathfinder {
             cost_t fLimit = Heuristic(src, target);
 
             fringe.InsertNode(src);
-            AddCache(src, 0, fLimit, NO_NODE);
+            AddCache(src, 0, 0, NO_NODE);
             while(!HasCache(target)) {
                 cost_t fMin = INFINITY;
                 Iterate(iteration, fLimit, fMin);
@@ -175,6 +208,20 @@ namespace pathfinder {
             }
 
             Path path = ReconstructPath(src, target);
+
+            clock_t stop = std::clock();
+
+            double run_time = (stop - start) * 1000.0 / CLOCKS_PER_SEC;
+
+            collection.AddValue("nodes_expanded", nodesExpanded);
+            collection.AddValue("nodes_visited", nodesVisited);
+            collection.AddValue("iterations", iteration);
+            collection.AddValue("heuristic_calls", hCalls);
+            collection.AddValue("cache_fetches", cacheFetches);
+            collection.AddValue("path_length", path.GetCost());
+            collection.AddValue("path_nodes", path.NodeCount());
+            collection.AddValue("run_time", run_time);
+
             return path;
         }
 

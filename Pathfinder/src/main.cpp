@@ -17,10 +17,10 @@ namespace objs = pf::objects;
 int main(int argc, char* argv[]) {
     std::string path, heuristic;
     unsigned int iterations;
+    bool dumpCsv;
     po::variables_map vm;
     po::options_description desc("Allowed options");
     std::vector<pf::algorithms::Algorithm*> algs;
-    std::vector<pf::Tests::TestResults> results;
     pf::objects::cost_t (*heuristicFunction)(const pf::objects::Node& node1,
                                              const pf::objects::Node& node2);
 
@@ -28,6 +28,8 @@ int main(int argc, char* argv[]) {
         desc.add_options()
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
+            ("csv,c", po::value<bool>(&dumpCsv)->default_value(false),
+             "generate a csv dump of the data")
             ("astar,a", "enable testing of A*")
             ("dijkstra,d", "enable testing of Dijkstra's algorithm")
             ("fringe,f", "enable testing of Fringe Search")
@@ -116,7 +118,7 @@ int main(int argc, char* argv[]) {
     //Initialize seed
     srand(std::random_device()());
 
-    srand(1234);
+    srand(123456);
 
     for(int i = 0; i < iterations; i++) {
 
@@ -124,14 +126,14 @@ int main(int argc, char* argv[]) {
         target = pf::Tests::graph->RandomID();
 
         for(pf::algorithms::Algorithm* alg : algs) {
-            results.push_back(pf::Tests::RunTests(alg, src, target));
+            pf::Tests::RunTests(alg, src, target);
         }
 
         std::cout << "\n";
     }
 
-    for(pf::Tests::TestResults res : results) {
-        pf::Tests::PrintResults(res);
+    for(pf::algorithms::Algorithm* algorithm : algs) {
+        algorithm->collection.Print();
     }
 
     pf::Tests::DeInitialize();

@@ -1,5 +1,7 @@
 #include <cmath>
 #include <iostream>
+#include <iomanip>
+
 #include "statistics.hpp"
 
 namespace pathfinder {
@@ -8,7 +10,7 @@ namespace pathfinder {
     void Statistic::AddValue(double val) {
         values.push_back(val);
         sum += val;
-        sum += val * val;
+        squaredSum += val * val;
 
         max = val > max ? val : max;
         min = val < min ? val : min;
@@ -39,12 +41,17 @@ namespace pathfinder {
         return sqrt((squaredSum / values.size()) - (mean * mean));
     }
 
+
+    double Statistic::GetSum() {
+        return sum;
+    }
+
     void Statistic::Print() {
-        std::cout << "mean: " << GetMean() << "\n";
-        std::cout << "sum: " << GetSum() << "\n";
+        std::cout << std::setw(20) << std::left << "mean: " << GetMean() << "\n";
+        std::cout << std::setw(20) << std::left << "sum: " << GetSum() << "\n";
         std::cout << "standard deviation: " << GetStdDev() << "\n";
-        std::cout << "min: " << GetMin() << "\n";
-        std::cout << "max: " << GetMax() << "\n\n";
+        std::cout << std::setw(20) << std::left << "min: " << GetMin() << "\n";
+        std::cout << std::setw(20) << std::left << "max: " << GetMax() << "\n\n";
 
     }
 
@@ -64,7 +71,7 @@ namespace pathfinder {
     void StatisticsCollection::Print() {
         auto iter = statistics.begin();
 
-        std::cout << "-------------------- Results --------------------\n";
+        std::cout << "------------- results -------------\n";
         std::cout << "algorithm: " << algorithmName << "\n\n";
 
         while(iter != statistics.end()) {

@@ -16,12 +16,13 @@ namespace pathfinder {
         public:
             explicit Path(Graph* graph);
 
-            bool IsConnected();
+            id_t FirstNode();
             cost_t GetCost();
+            bool IsConnected();
+            size_t NodeCount();
             void Pop();
             void Push(id_t id);
             id_t Top();
-            size_t Size();
         };
     }
 }
