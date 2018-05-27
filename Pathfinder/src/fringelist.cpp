@@ -8,7 +8,9 @@
 
 namespace pathfinder {
     namespace algorithms {
-        FringeList::FringeList() {
+        FringeList::FringeList() : isInList() {
+            currentNode = NO_NODE;
+            head = NO_NODE;
         }
 
         id_t FringeList::GetCurrentNode() {

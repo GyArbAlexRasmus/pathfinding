@@ -82,8 +82,9 @@ namespace pathfinder {
                 // Get the top node
                 id_t current = openSet.get();
 
-                if(current == target)
+                if(current == target) {
                     return ReconstructPath(src, target);
+                }
 
                 // Add current node to closed set
                 closedSet[current] = true;
@@ -91,8 +92,9 @@ namespace pathfinder {
                 // For every neighbor of current node
                 for(edge edge : graph->GetNode(current)->adjacent) {
                     id_t neighbor = edge.second->id;
-                    if(IsInClosedSet(neighbor))
+                    if(IsInClosedSet(neighbor)){
                         continue; // Already evaluated the current edge.
+                    }
 
                     auto tentative_cost = GetCostTo(current) + edge.first;
 

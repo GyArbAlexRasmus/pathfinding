@@ -15,21 +15,23 @@ namespace pathfinder {
         private:
             struct CacheEntry {
                 cost_t g;
+                cost_t h;
                 uint64_t iteration;
                 id_t parent;
             };
             FringeList fringe;
             std::vector<CacheEntry> cache;
             std::vector<bool> hasCache;
+            id_t target = NO_NODE;
 
-            void AddCache(id_t id, cost_t g, uint64_t iter, id_t parent);
+            void AddCache(id_t id, cost_t g,
+                          uint64_t iter, id_t parent);
             bool CheckCache(id_t id, cost_t g, uint64_t iter);
             CacheEntry& GetFromCache(id_t id);
-            void GetFromCache(id_t id, cost_t& g, id_t& parent);
+            void GetFromCache(id_t id, cost_t& g, cost_t& h, id_t& parent);
             bool HasCache(id_t id);
             void Init();
-            void Iterate(uint64_t iteration, cost_t fLimit, cost_t& fMin,
-                         id_t target);
+            void Iterate(uint64_t iteration, cost_t fLimit, cost_t& fMin);
             Path ReconstructPath(id_t src, id_t target);
 
             cost_t (*HeuristicFunction)(const Node& node1, const Node& node2);
