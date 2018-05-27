@@ -90,7 +90,6 @@ namespace pathfinder {
             AStar(Graph* g, std::string name);
             virtual cost_t Heuristic(id_t src, id_t target);
         public:
-            AStar(Graph* g);
             AStar(Graph* g,
                   cost_t (*heuristic)(const Node&,
                                       const Node&));

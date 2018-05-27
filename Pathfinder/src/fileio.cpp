@@ -1,7 +1,7 @@
 #include <boost/algorithm/string.hpp>
-#include <fstream>
+#include <boost/filesystem.hpp>
 #include <iostream>
-#include <vector>
+#include <boost/format.hpp>
 
 #include "fileio.hpp"
 #include "math.hpp"
@@ -96,6 +96,39 @@ namespace pathfinder {
             boost::split(vec, str, boost::is_any_of(","));
             
             return vec;
+        }
+
+        namespace fs = boost::filesystem;
+
+        void DumpStatistics(StatisticsCollection& collection,
+                            fs::path path) {
+            std::ofstream stream(path.string());
+            collection.DumpCSV(stream);
+        }
+
+        fs::path GetPath(std::string pathStr) {
+            fs::path path = fs::path(pathStr);
+            if(fs::exists(path)) {
+                if(!fs::is_directory(path)) {
+                    throw std::invalid_argument(
+                            pathStr + " is not a directory. Aborting CSV dump.");
+                }
+                for(int i = 0; i < 65536; i++) {
+                    std::string curPath =
+                            (boost::format("%1%/%2%/") % path.string() % i).str();
+
+                    if(!fs::exists(curPath)) {
+                        fs::create_directory(curPath);
+                        return fs::path(curPath);
+                    }
+                }
+            } else {
+                fs::create_directory(path);
+                path += "/0/";
+                fs::create_directory(path);
+            }
+
+            return path;
         }
     }
 }

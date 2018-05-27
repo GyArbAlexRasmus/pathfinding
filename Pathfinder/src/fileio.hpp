@@ -1,11 +1,15 @@
 #ifndef FILEIO_HPP
 #define FILEIO_HPP
 
+#include <boost/filesystem.hpp>
 #include <fstream>
 #include <string>
 
 #include "graph.hpp"
 #include "node.hpp"
+#include "statistics.hpp"
+
+#define BOOST_FILESYSTEM_NO_DEPRECATED
 
 namespace pathfinder {
     namespace fileio {
@@ -37,6 +41,11 @@ namespace pathfinder {
             std::map<id_t, id_t> translationTable;
             std::vector<std::string> ReadValues(std::ifstream& stream);
         };
+
+        void DumpStatistics(StatisticsCollection& collection,
+                            boost::filesystem::path path);
+
+        boost::filesystem::path GetPath(std::string pathStr);
     }
 }
 

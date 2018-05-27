@@ -106,21 +106,9 @@ namespace pathfinder {
             return path;
         }
 
-        FringeSearch::FringeSearch(Graph* g) : Algorithm(g, "Fringe Search") {
-            heuristicFunction = math::Haversine;
-            collection.AddStatistic("nodes_expanded");
-            collection.AddStatistic("nodes_visited");
-            collection.AddStatistic("iterations");
-            collection.AddStatistic("heuristic_calls");
-            collection.AddStatistic("cache_fetches");
-            collection.AddStatistic("path_length");
-            collection.AddStatistic("path_nodes");
-            collection.AddStatistic("run_time");
-        }
-
         FringeSearch::FringeSearch(Graph* g,
                                    cost_t (*heuristic)(const Node&, const Node&))
-                : Algorithm(g, "Fringe Search") {
+                : Algorithm(g, "FringeSearch") {
             heuristicFunction = heuristic;
             collection.AddStatistic("nodes_expanded");
             collection.AddStatistic("nodes_visited");
@@ -223,10 +211,6 @@ namespace pathfinder {
             collection.AddValue("run_time", run_time);
 
             return path;
-        }
-
-        std::string FringeSearch::GetName() {
-            return "Fringe Search";
         }
     }
 }

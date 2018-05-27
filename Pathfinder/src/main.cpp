@@ -5,9 +5,10 @@
 
 #include "astar.hpp"
 #include "dijkstra.hpp"
+#include "fileio.hpp"
 #include "fringe.hpp"
-#include "tests.hpp"
 #include "math.hpp"
+#include "tests.hpp"
 
 
 namespace po = boost::program_options;
@@ -17,7 +18,6 @@ namespace objs = pf::objects;
 int main(int argc, char* argv[]) {
     std::string path, heuristic;
     unsigned int iterations;
-    bool dumpCsv;
     po::variables_map vm;
     po::options_description desc("Allowed options");
     std::vector<pf::algorithms::Algorithm*> algs;
@@ -28,8 +28,7 @@ int main(int argc, char* argv[]) {
         desc.add_options()
             ("help,h", "produce help message")
             ("version,v", "get version of Pathfinder")
-            ("csv,c", po::value<bool>(&dumpCsv)->default_value(false),
-             "generate a csv dump of the data")
+            ("csv,c", "generate a csv dump of the data")
             ("astar,a", "enable testing of A*")
             ("dijkstra,d", "enable testing of Dijkstra's algorithm")
             ("fringe,f", "enable testing of Fringe Search")
@@ -132,8 +131,17 @@ int main(int argc, char* argv[]) {
         std::cout << "\n";
     }
 
+    boost::filesystem::path csvpath;
+
+    if(vm.count("csv")) {
+        csvpath = pf::fileio::GetPath(path + "/runs/");
+    }
     for(pf::algorithms::Algorithm* algorithm : algs) {
         algorithm->collection.Print();
+        if(vm.count("csv")) {
+            std::ofstream stream(csvpath.string() + algorithm->GetName());
+            algorithm->collection.DumpCSV(stream);
+        }
     }
 
     pf::Tests::DeInitialize();

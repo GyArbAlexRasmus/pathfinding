@@ -10,6 +10,8 @@ namespace pathfinder {
         }
 
         Dijkstra::Dijkstra(Graph *g)
-                : AStar(g, std::string("Dijkstra's Algorithm")) { }
+                : AStar(g, std::string("Dijkstra")) {
+            collection.GetStatistic("heuristic_calls").printFlags.reset();
+        }
     }
 }

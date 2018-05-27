@@ -160,17 +160,11 @@ namespace pathfinder {
             AddStatistics();
         }
 
-        AStar::AStar(Graph* g) : Algorithm(g, "A*") {
-            HeuristicFunction = math::Haversine;
-
-            AddStatistics();
-        }
-
 
         AStar::AStar(Graph* g,
                      cost_t (*heuristic)(const Node&,
                                          const Node&))
-                     : Algorithm(g, "A*") {
+                     : Algorithm(g, "AStar") {
             HeuristicFunction = heuristic;
 
             AddStatistics();

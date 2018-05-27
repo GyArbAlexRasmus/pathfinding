@@ -45,11 +45,9 @@ namespace pathfinder {
         protected:
 
         public:
-            FringeSearch(Graph* g);
             FringeSearch(Graph* g,
                          cost_t (*heuristic)(const Node&, const Node&));
             Path FindWay(id_t src, id_t target);
-            std::string GetName();
         };
     }
 }
