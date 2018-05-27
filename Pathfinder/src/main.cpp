@@ -16,6 +16,7 @@ namespace objs = pf::objects;
 
 int main(int argc, char* argv[]) {
     std::string path, heuristic;
+    unsigned int iterations;
     po::variables_map vm;
     po::options_description desc("Allowed options");
     std::vector<pf::algorithms::Algorithm*> algs;
@@ -32,6 +33,9 @@ int main(int argc, char* argv[]) {
             ("fringe,f", "enable testing of Fringe Search")
             ("heuristic,H", po::value<std::string>(&heuristic),
              "heuristic function, h is haversine, e is euclidean")
+            ("iterations,i",
+             po::value<unsigned int>(&iterations)->default_value(1),
+             "iterations to run")
             ("path,p", po::value<std::string>(&path),
              "path in which OSM data is stored")
         ;
@@ -114,7 +118,7 @@ int main(int argc, char* argv[]) {
 
     srand(1234);
 
-    for(int i = 0; i < 25; i++) {
+    for(int i = 0; i < iterations; i++) {
 
         src    = pf::Tests::graph->RandomID();
         target = pf::Tests::graph->RandomID();
